@@ -17,7 +17,7 @@ import (
 
 func CreateUser(c *gin.Context) {
 
-	var user entity.Patient
+	var user entity.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 

@@ -9,10 +9,13 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { PatientInterface } from "../models/IPat";
+
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { timePickerDefaultProps } from "@material-ui/pickers/constants/prop-types";
+import "react-time"
 
 function Alert(props: AlertProps) {
 
@@ -31,7 +34,12 @@ const useStyles = makeStyles((theme: Theme) =>
     }));
 
 export default function Bodys() {
+    
 
+
+
+
+    //สร้างข้อมูล
     const [user, setUser] = React.useState<Partial<PatientInterface>>({});
 
     const [success, setSuccess] = React.useState(false);
@@ -56,13 +64,14 @@ export default function Bodys() {
     const handleInputChange = (
 
         event: React.ChangeEvent<{ id?: string; value: any }>
-
+        
     ) => {
 
         const id = event.target.id as keyof typeof Bodys;
 
         const { value } = event.target;
-
+        console.log("Value",value)
+        console.log("ID",id)
         setUser({ ...user, [id]: value });
 
     };
@@ -71,27 +80,28 @@ export default function Bodys() {
 
         let data = {
 
-            FirstName: user.PatientFirstname ?? "",
+            PatientFirstname: user.PatientFirstname ?? "",
 
-            LastName: user.PatientLastname ?? "",
+            PatientLastname: user.PatientLastname ?? "",
 
-            Age: typeof user.PatientAge === "string" ? parseInt(user.PatientAge) : 0,
+            PatientAge: typeof user.PatientAge === "string" ? parseInt(user.PatientAge) : 0,
 
-            IDcard: user.PatientIDcard,
+            PatientIDcard: user.PatientIDcard,
 
-            Tel: user.PatientTel,
+            PatientTel: user.PatientTel,
 
-            /*Time: user.PatientTime,
+            PatientTime: new Date(),
 
-            SexID: user.SexID,
+            /*SexID: user.SexID,
 
             JobID: user.JobID,
 
             InsuranceID: user.InsuranceID,*/
 
         };
+        console.log("Data",data)
 
-        const apiUrl = "http://localhost:8080/users";
+        const apiUrl = "http://localhost:8080/patient";
 
         const requestOptions = {
      
@@ -109,7 +119,7 @@ export default function Bodys() {
           .then((response) => response.json())
      
           .then((res) => {
-     
+            console.log("Res",res)
             if (res.data) {
      
               setSuccess(true);
@@ -203,24 +213,24 @@ export default function Bodys() {
                         <p>ชื่อ</p>
                         <TextField style={{ width: 220 }}
 
-                            id="FirstName"
+                            id="PatientFirstname"
 
                             variant="outlined"
 
                             type="string"
 
                             size="medium"
-
                             
-
-                            onChange={handleInputChange} />
+                        
+                            onChange={handleInputChange} 
+                            />
                     </Grid>
 
                     <Grid item xs={3} >
                         <p>นามสกุล</p>
                         <TextField style={{ width: 220 }}
 
-                            id="LastName"
+                            id="PatientLastname"
 
                             variant="outlined"
 
@@ -228,9 +238,9 @@ export default function Bodys() {
 
                             size="medium"
 
-                            
+                            onChange={handleInputChange}
 
-                            onChange={handleInputChange} />
+                             />
                     </Grid>
 
 
@@ -238,7 +248,7 @@ export default function Bodys() {
                         <p>อายุ</p>
                         <TextField style={{ width: 140 }}
 
-                            id="outlined-basic"
+                            id="PatientAge"
 
                             label=""
 
@@ -262,13 +272,29 @@ export default function Bodys() {
 
                     <Grid item xs={5}>
                         <p>รหัสบัตรประจำตัวประชาชน</p>
-                        <TextField style={{ width: 360 }} id="outlined-basic" label="" variant="outlined" />
+                        <TextField style={{ width: 360 }} 
+                            id="PatientIDcard" 
+                        
+                            label="" 
+                            
+                            variant="outlined"                         
+
+                            onChange={handleInputChange}
+                            />
                     </Grid>
 
 
                     <Grid item xs={6}>
                         <p>เบอร์โทร</p>
-                        <TextField style={{ width: 200 }} id="outlined-basic" label="" variant="outlined" />
+                        <TextField style={{ width: 200 }} 
+                            id="PatientTel" 
+                            
+                            label="" 
+                            
+                            variant="outlined" 
+
+                            onChange={handleInputChange}
+                            />
                     </Grid>
 
                     <Grid item xs={5}>
@@ -277,7 +303,16 @@ export default function Bodys() {
                             options={job_select}
                             getOptionLabel={(option) => option.title}
                             style={{ width: 360 }}
-                            renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} 
+                            
+                            id="JobID"
+
+                            label="" 
+                            
+                            variant="outlined" 
+                            
+                            
+                            />}
                         />
                     </Grid>
 
@@ -288,7 +323,13 @@ export default function Bodys() {
                             options={insurance_select}
                             getOptionLabel={(option) => option.title}
                             style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} 
+                            
+                            id="InsuranceID"
+
+                            label=""
+                            
+                            variant="outlined" />}
                         />
                     </Grid>
 
@@ -296,7 +337,7 @@ export default function Bodys() {
                     <Grid item xs={12}>
                         <p>ข้อมูลสิทธิ</p>
                         <TextField
-                            id="filled-read-only-input"
+
                             style={{ width: 755 }}
                             label=""
                             InputProps={{
@@ -311,14 +352,20 @@ export default function Bodys() {
 
                     <Grid item xs={6}>
                         <p>ผู้บันทึก</p>
+                        
+                           
                         <TextField
-                            id="filled-read-only-input"
+
                             style={{ width: 380 }}
+
                             label=""
-                            defaultValue="Hello World"
+
+                            defaultValue = "wuser.Name"
+
                             InputProps={{
                                 readOnly: true,
                             }}
+                            
                             variant="filled"
 
                         />
