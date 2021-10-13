@@ -9,19 +9,25 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { PatientInterface } from "../models/IPat";
-
+import { UserInterface } from "../models/IUser";
+import { SexInterface } from "../models/ISex";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { timePickerDefaultProps } from "@material-ui/pickers/constants/prop-types";
 import "react-time"
+import { useEffect } from "react";
+import { useState } from 'react';
+import ComboBox from "./Sex";
 
 function Alert(props: AlertProps) {
 
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 
 }
+
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Bodys() {
     
+
 
 
 
@@ -92,12 +99,11 @@ export default function Bodys() {
 
             PatientTime: new Date(),
 
-            /*SexID: user.SexID,
+            SexID: typeof user.SexID === "string" ? parseInt(user.SexID) : 0,
 
-            JobID: user.JobID,
+            JobID: typeof user.JobID === "string" ? parseInt(user.JobID) : 0,
 
-            InsuranceID: user.InsuranceID,*/
-
+            InsuranceID: typeof user.InsuranceID === "string" ? parseInt(user.InsuranceID) : 0,
         };
         console.log("Data",data)
 
@@ -136,8 +142,8 @@ export default function Bodys() {
 
 
     const sex_select = [
-        { title: 'ชาย' },
-        { title: 'หญิง' },
+        { title : "ชาย"},
+        { title: "หญิง"},
     ];
     const job_select = [
         { title: 'ราชการ' },
@@ -221,7 +227,6 @@ export default function Bodys() {
 
                             size="medium"
                             
-                        
                             onChange={handleInputChange} 
                             />
                     </Grid>
@@ -265,7 +270,17 @@ export default function Bodys() {
                             options={sex_select}
                             getOptionLabel={(option) => option.title}
                             style={{ width: 150 }}
-                            renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} 
+                            
+                            id="SexID"
+
+                            label="" 
+                            
+                            variant="outlined" 
+
+                            onChange={handleInputChange}
+                            
+                            />}
                         />
                     </Grid>
 

@@ -20,6 +20,12 @@ export interface PatientInterface {
 
     PatientTime: Date;
 
+    SexID: number;
+
+    JobID: number;
+
+    InsuranceID: number;
+
     Sex: SexInterface;
 
     Job: JobInterface;
