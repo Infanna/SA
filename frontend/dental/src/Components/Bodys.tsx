@@ -40,21 +40,23 @@ const useStyles = makeStyles((theme: Theme) =>
     }));
 
 export default function Bodys() {
-    
+
 
 
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
       ) => {
         const name = event.target.name as keyof typeof pats
+        console.log("Name" , name)
         setPatient({
           ...pats ,
           [name]: event.target.value,
         });
       };
 
+      
 //ดึงข้อมูลเพศ
-const [sexs, setSex] = React.useState<Partial<SexInterface[]>>([]);
+const [sexs, setSex] = React.useState<SexInterface[]>([]);
 
 function getSex(){
     const apiUrl = "http://localhost:8080/sexs";
@@ -90,7 +92,7 @@ function getSex(){
 }
 
 //ดึงข้อมูลอาชีพ
-const [jobs, setJob] = React.useState<Partial<JobInterface[]>>([]);
+const [jobs, setJob] = React.useState<JobInterface[]>([]);
 
 function getJob(){
     const apiUrl = "http://localhost:8080/jobs";
@@ -125,7 +127,7 @@ function getJob(){
       
 }
 //ดึงข้อมูลสิทธิในการรักษา
-const [ins, setIns] = React.useState<Partial<InsuranceInterface[]>>([]);
+const [ins, setIns] = React.useState<InsuranceInterface[]>([]);
 
 function getIns(){
     const apiUrl = "http://localhost:8080/insrs";
@@ -160,6 +162,42 @@ function getIns(){
       
 }
 
+//ดึงข้อมูลUser
+const [users, setUser] = React.useState<UserInterface[]>([]);
+
+function getUser(){
+    const apiUrl = "http://localhost:8080/users";
+
+    const requestOptions = {
+ 
+      method: "GET",
+ 
+      headers: { "Content-Type": "application/json" },
+
+ 
+    };
+ 
+ 
+    fetch(apiUrl, requestOptions)
+ 
+      .then((response) => response.json())
+ 
+      .then((res) => {
+        console.log("Combobox_User",res)
+        if (res.data) {
+ 
+          setUser(res.data);
+ 
+        } else {
+ 
+          console.log("else");
+ 
+        }
+ 
+      });
+      
+}
+
 
 
 //ดึงข้อมูล ใส่ combobox
@@ -168,12 +206,15 @@ useEffect(() => {
     getSex();
     getJob();
     getIns();
+    getUser();
   
   }, []);
 
+  
 
 
-    //สร้างข้อมูล
+
+//สร้างข้อมูล
     const [pats, setPatient] = React.useState<Partial<PatientInterface>>({});
 
     const [success, setSuccess] = React.useState(false);
@@ -221,9 +262,9 @@ useEffect(() => {
 
             PatientAge: typeof pats.PatientAge === "string" ? parseInt(pats.PatientAge) : 0,
 
-            PatientIDcard: pats.PatientIDcard,
+            PatientIDcard: pats.PatientIDcard ?? "",
 
-            PatientTel: pats.PatientTel,
+            PatientTel: pats.PatientTel ?? "",
 
             PatientTime: new Date(),
 
@@ -232,6 +273,8 @@ useEffect(() => {
             JobID: typeof pats.JobID === "string" ? parseInt(pats.JobID) : 0,
 
             InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : 0,
+
+            UserID: typeof pats.UserID === "string" ? parseInt(pats.UserID) : 0,
         };
 
         if (data.PatientIDcard) {
@@ -335,6 +378,8 @@ useEffect(() => {
 
                             id="PatientFirstname"
 
+                            label="กรอกชื่อ"
+
                             variant="outlined"
 
                             type="string"
@@ -351,6 +396,8 @@ useEffect(() => {
 
                             id="PatientLastname"
 
+                            label="กรอกนามสกุล"
+
                             variant="outlined"
 
                             type="string"
@@ -365,11 +412,16 @@ useEffect(() => {
 
                     <Grid item xs={2}>
                         <p>อายุ</p>
-                        <TextField style={{ width: 140 }}
+                        <TextField 
+
+
+                            type = "number"
+
+                            style={{ width: 140 }}
 
                             id="PatientAge"
 
-                            label=""
+                            label="กรอกอายุ"
 
                             variant="outlined"
 
@@ -389,11 +441,11 @@ useEffect(() => {
                                 }}
                             >
                         <option aria-label="None" value="">
-                            กรุณาเลือกเพศ
+                            เลือกเพศ
                         </option>
-                        {sexs.map((item?: SexInterface) => (
-                        <option value={item?.ID} key={item?.ID}>
-                            {item?.SexName}
+                        {sexs.map((item: SexInterface) => (
+                        <option value={item.ID} key={item.ID}>
+                            {item.SexName}
                         </option>
                         ))}
                             </Select>
@@ -403,10 +455,15 @@ useEffect(() => {
 
                     <Grid item xs={5}>
                         <p>รหัสบัตรประจำตัวประชาชน</p>
-                        <TextField style={{ width: 360 }} 
-                            id="PatientIDcard" 
+                        <TextField 
                         
-                            label="" 
+                            type = "number"
+
+                            style={{ width: 360 }} 
+
+                            id="PatientIDcard" 
+                            
+                            label="กรอกรหัสบัตรประจำตัวประชาชน" 
                             
                             variant="outlined"                         
 
@@ -417,10 +474,15 @@ useEffect(() => {
 
                     <Grid item xs={6}>
                         <p>เบอร์โทร</p>
-                        <TextField style={{ width: 200 }} 
+                        <TextField 
+
+                            type = "tel"
+
+                            style={{ width: 200 }} 
+
                             id="PatientTel" 
                             
-                            label="" 
+                            label="กรอกเบอร์โทร" 
                             
                             variant="outlined" 
 
@@ -433,18 +495,21 @@ useEffect(() => {
                          <p>อาชีพ</p>
                             <Select
                                 native
+
                                 value={pats.JobID}
+
                                 onChange={handleChange}
+
                                 inputProps={{
-                                name: "JobID",
+                                    name: "JobID",
                                 }}
                             >
                         <option aria-label="None" value="">
-                            กรุณาเลือกอาชีพ
+                            เลือกอาชีพ
                         </option>
-                        {jobs.map((item?: JobInterface) => (
-                        <option value={item?.ID} key={item?.ID}>
-                            {item?.JobName}
+                        {jobs.map((item: JobInterface) => (
+                        <option value={item.ID} key={item.ID}>
+                            {item.JobName}
                         </option>
                         ))}
                             </Select>
@@ -456,64 +521,80 @@ useEffect(() => {
                     <FormControl fullWidth variant="outlined">
                          <p>สิทธิในการรักษา</p>
                             <Select
+                            
                                 native
+
                                 value={pats.InsuranceID}
+
                                 onChange={handleChange}
+                                
                                 inputProps={{
                                     name: "InsuranceID",
                                 }}
                             >
                         <option aria-label="None" value="">
-                            กรุณาเลือกสิทธิในการรักษา
+                            เลือกสิทธิในการรักษา
                         </option>
-                        {ins.map((item?: InsuranceInterface) => (
-                        <option value={item?.ID} key={item?.ID}>
-                            {item?.InsuranceName}
-                        </option>
+                        {ins.map((item: InsuranceInterface) => (
+                        <option value={item.ID} key={item.ID}>
+                            {item.InsuranceName}
+                        </option>       
+                                                            
                         ))}
                             </Select>
                         </FormControl>
                     </Grid>
 
 
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                        <p>ข้อมูลสิทธิ</p>
-                        <TextField
-
-                            style={{ width: 755 }}
-                            label=""
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            variant="filled"
-                        />
+                    <Grid item xs={11}>
+                    <FormControl fullWidth variant="outlined">
+                         <p>ข้อมูลสิทธิ</p>
+                            <Select
+                                native                      
+                                disabled
+                            >
+                        <option aria-label="None" value="">
+                            แสดงรายละเอียดข้อมูลพื้นฐาน
+                        </option>           
+                        {ins.map((item: InsuranceInterface) => (
+                        <option key={item.ID}>
+                            {item.Detail}
+                        </option>                         
+                        ))}
+                            </Select>
                         </FormControl>
                     </Grid>
 
 
                   
-
                     <Grid item xs={6}>
-                        <p>ผู้บันทึก</p>
-                        
-                           
-                        <TextField
-
-                            style={{ width: 380 }}
-
-                            label=""
-
-                            defaultValue = "wuser.Name"
-
-                            InputProps={{
-                                readOnly: true,
-                            }}
+                    <FormControl fullWidth variant="outlined">
+                         <p>ผู้บันทึก</p>
+                            <Select
                             
-                            variant="filled"
+                                native
 
-                        />
+                                value={pats.UserID}
+
+                                onChange={handleChange}
+
+                                inputProps={{
+                                    name: "UserID",
+                                }}
+                            >
+                        <option aria-label="None" value="">
+                            ผู้บันทึก
+                        </option>
+                        {users.map((item: UserInterface) => (
+                        <option value={item.ID} key={item.ID}>
+                            {item.Name}
+                        </option>                         
+                        ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
+
+
                     <Grid item xs={12}>
                         <Button style={{ float: "right" }}
                             variant="contained"

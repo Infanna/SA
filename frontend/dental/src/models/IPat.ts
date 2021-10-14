@@ -26,6 +26,8 @@ export interface PatientInterface {
 
     InsuranceID: number;
 
+    UserID: number;
+
     Sex: SexInterface;
 
     Job: JobInterface;

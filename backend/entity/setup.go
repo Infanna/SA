@@ -51,6 +51,12 @@ func SetupDatabase() {
 	}
 	db.Model(&Insurance{}).Create(&insurance1)
 
+	insurance2 := Insurance{
+		InsuranceName:		"ประกันสังคม",
+		Detail:				"เบิกจากรัฐได้",
+	}
+	db.Model(&Insurance{}).Create(&insurance2)
+
 
 	us1 := User{
 		Name:			"สมชาย มาบันทึก",

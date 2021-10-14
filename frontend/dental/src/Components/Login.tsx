@@ -60,7 +60,7 @@ function Form(){
 
                         variant="outlined"
 
-                        type="string"
+                        type="password"
 
                         size="medium"
         
@@ -70,9 +70,13 @@ function Form(){
 
                 <Grid item xs={12} md={3} >
                 <Button style={{ float: "left" }}
+
                         component={RouterLink}
+
                         to="/list"
+                        
                         variant="outlined"
+                        
                         color="primary">
                         Login
                 </Button>
