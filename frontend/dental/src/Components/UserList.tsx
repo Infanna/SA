@@ -28,8 +28,9 @@ import TableRow from "@material-ui/core/TableRow";
 
 import { PatientInterface } from "../models/IPat";
 
-
 import moment from 'moment';
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
 
@@ -48,14 +49,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-
-/*const styles = themelist => ({
-    paper: {
-      width: '100%',
-      marginTop: themelist.spacing.unit * 3,
-      overflowX: 'auto',
-    },
-  });*/
 
 
 

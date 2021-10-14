@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
+import { Link as RouterLink } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,7 +42,13 @@ export default function ButtonAppBar() {
           <Typography variant="h5" className={classes.title}>
             เวชระเบียน
           </Typography>
-          <Button color="inherit" >Logout</Button>
+          <Button style={{ float: "right" }}
+                            component={RouterLink}
+                            to="/"
+                            variant="outlined"
+                            color="inherit">
+                            Logout
+                        </Button>
           <Avatar src="/broken-image.jpg" className={classes.icon}/>
         </Toolbar>
       </AppBar>

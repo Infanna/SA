@@ -47,7 +47,7 @@ func ListPatient(c *gin.Context) {
 
 
 	var pats []entity.Patient
-	if err := entity.DB().Raw("SELECT * FROM users").Find(&pats).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM patients").Find(&pats).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

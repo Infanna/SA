@@ -11,15 +11,15 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { PatientInterface } from "../models/IPat";
 import { UserInterface } from "../models/IUser";
 import { SexInterface } from "../models/ISex";
+import { JobInterface } from "../models/IJob";
+import { InsuranceInterface } from "../models/IIns";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
-import { timePickerDefaultProps } from "@material-ui/pickers/constants/prop-types";
 import "react-time"
 import { useEffect } from "react";
-import { useState } from 'react';
-import ComboBox from "./Sex";
+import { FormControl, Select } from "@material-ui/core";
 
 function Alert(props: AlertProps) {
 
@@ -43,11 +43,138 @@ export default function Bodys() {
     
 
 
+    const handleChange = (
+        event: React.ChangeEvent<{ name?: string; value: unknown }>
+      ) => {
+        const name = event.target.name as keyof typeof pats
+        setPatient({
+          ...pats ,
+          [name]: event.target.value,
+        });
+      };
+
+//ดึงข้อมูลเพศ
+const [sexs, setSex] = React.useState<Partial<SexInterface[]>>([]);
+
+function getSex(){
+    const apiUrl = "http://localhost:8080/sexs";
+
+    const requestOptions = {
+ 
+      method: "GET",
+ 
+      headers: { "Content-Type": "application/json" },
+
+ 
+    };
+ 
+ 
+    fetch(apiUrl, requestOptions)
+ 
+      .then((response) => response.json())
+ 
+      .then((res) => {
+        console.log("Combobox_sex",res)
+        if (res.data) {
+ 
+          setSex(res.data);
+ 
+        } else {
+ 
+          console.log("else");
+ 
+        }
+ 
+      });
+      
+}
+
+//ดึงข้อมูลอาชีพ
+const [jobs, setJob] = React.useState<Partial<JobInterface[]>>([]);
+
+function getJob(){
+    const apiUrl = "http://localhost:8080/jobs";
+
+    const requestOptions = {
+ 
+      method: "GET",
+ 
+      headers: { "Content-Type": "application/json" },
+
+ 
+    };
+ 
+ 
+    fetch(apiUrl, requestOptions)
+ 
+      .then((response) => response.json())
+ 
+      .then((res) => {
+        console.log("Combobox_job",res)
+        if (res.data) {
+ 
+          setJob(res.data);
+ 
+        } else {
+ 
+          console.log("else");
+ 
+        }
+ 
+      });
+      
+}
+//ดึงข้อมูลสิทธิในการรักษา
+const [ins, setIns] = React.useState<Partial<InsuranceInterface[]>>([]);
+
+function getIns(){
+    const apiUrl = "http://localhost:8080/insrs";
+
+    const requestOptions = {
+ 
+      method: "GET",
+ 
+      headers: { "Content-Type": "application/json" },
+
+ 
+    };
+ 
+ 
+    fetch(apiUrl, requestOptions)
+ 
+      .then((response) => response.json())
+ 
+      .then((res) => {
+        console.log("Combobox_Ins",res)
+        if (res.data) {
+ 
+          setIns(res.data);
+ 
+        } else {
+ 
+          console.log("else");
+ 
+        }
+ 
+      });
+      
+}
+
+
+
+//ดึงข้อมูล ใส่ combobox
+useEffect(() => {
+    
+    getSex();
+    getJob();
+    getIns();
+  
+  }, []);
 
 
 
     //สร้างข้อมูล
-    const [user, setUser] = React.useState<Partial<PatientInterface>>({});
+    const [pats, setPatient] = React.useState<Partial<PatientInterface>>({});
 
     const [success, setSuccess] = React.useState(false);
 
@@ -67,7 +194,7 @@ export default function Bodys() {
 
     };
 
-
+    
     const handleInputChange = (
 
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -79,32 +206,38 @@ export default function Bodys() {
         const { value } = event.target;
         console.log("Value",value)
         console.log("ID",id)
-        setUser({ ...user, [id]: value });
+        setPatient({ ...pats, [id]: value });
 
     };
+    
 
     function submit() {
 
         let data = {
 
-            PatientFirstname: user.PatientFirstname ?? "",
+            PatientFirstname: pats.PatientFirstname ?? "",
 
-            PatientLastname: user.PatientLastname ?? "",
+            PatientLastname: pats.PatientLastname ?? "",
 
-            PatientAge: typeof user.PatientAge === "string" ? parseInt(user.PatientAge) : 0,
+            PatientAge: typeof pats.PatientAge === "string" ? parseInt(pats.PatientAge) : 0,
 
-            PatientIDcard: user.PatientIDcard,
+            PatientIDcard: pats.PatientIDcard,
 
-            PatientTel: user.PatientTel,
+            PatientTel: pats.PatientTel,
 
             PatientTime: new Date(),
 
-            SexID: typeof user.SexID === "string" ? parseInt(user.SexID) : 0,
+            SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : 0,
 
-            JobID: typeof user.JobID === "string" ? parseInt(user.JobID) : 0,
+            JobID: typeof pats.JobID === "string" ? parseInt(pats.JobID) : 0,
 
-            InsuranceID: typeof user.InsuranceID === "string" ? parseInt(user.InsuranceID) : 0,
+            InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : 0,
         };
+
+        if (data.PatientIDcard) {
+
+        }
+
         console.log("Data",data)
 
         const apiUrl = "http://localhost:8080/patient";
@@ -141,24 +274,6 @@ export default function Bodys() {
     }
 
 
-    const sex_select = [
-        { title : "ชาย"},
-        { title: "หญิง"},
-    ];
-    const job_select = [
-        { title: 'ราชการ' },
-        { title: 'รัฐวิสาหกิจ' },
-        { title: 'บริษัทเอกชน' },
-        { title: 'ค้าขาย' }
-    ];
-    const insurance_select = [
-        { title: 'สวัสดิการของข้าราชการ' },
-        { title: 'ประกันสังคม' },
-        { title: 'หลักประกันสุขภาพ 30 บาท' }
-    ];
-    /*const User_select = [
-        { title: 'สมชาย มาบันทึก' },
-    ];*/
     const classes = useStyles();
 
 
@@ -186,7 +301,6 @@ export default function Bodys() {
 
             </Snackbar>
 
-
             <Paper className={classes.paper}>
                 <Box display="flex"> <Box flexGrow={1}>
                     <Typography
@@ -202,7 +316,7 @@ export default function Bodys() {
 
                         <Button style={{ float: "right" }}
                             component={RouterLink}
-                            to="/"
+                            to="/list"
                             variant="contained"
                             color="primary">
                             รายชื่อ
@@ -263,26 +377,28 @@ export default function Bodys() {
                         />
                     </Grid>
 
-
                     <Grid item xs={3}>
-                        <p>เพศ</p>
-                        <Autocomplete
-                            options={sex_select}
-                            getOptionLabel={(option) => option.title}
-                            style={{ width: 150 }}
-                            renderInput={(params) => <TextField {...params} 
-                            
-                            id="SexID"
-
-                            label="" 
-                            
-                            variant="outlined" 
-
-                            onChange={handleInputChange}
-                            
-                            />}
-                        />
-                    </Grid>
+                        <FormControl fullWidth variant="outlined">
+                         <p>เพศ</p>
+                            <Select
+                                native
+                                value={pats.SexID}
+                                onChange={handleChange}
+                                inputProps={{
+                                name: "SexID",
+                                }}
+                            >
+                        <option aria-label="None" value="">
+                            กรุณาเลือกเพศ
+                        </option>
+                        {sexs.map((item?: SexInterface) => (
+                        <option value={item?.ID} key={item?.ID}>
+                            {item?.SexName}
+                        </option>
+                        ))}
+                            </Select>
+                        </FormControl>
+                     </Grid>
 
 
                     <Grid item xs={5}>
@@ -313,43 +429,55 @@ export default function Bodys() {
                     </Grid>
 
                     <Grid item xs={5}>
-                        <p>อาชีพ</p>
-                        <Autocomplete
-                            options={job_select}
-                            getOptionLabel={(option) => option.title}
-                            style={{ width: 360 }}
-                            renderInput={(params) => <TextField {...params} 
-                            
-                            id="JobID"
-
-                            label="" 
-                            
-                            variant="outlined" 
-                            
-                            
-                            />}
-                        />
+                    <FormControl fullWidth variant="outlined">
+                         <p>อาชีพ</p>
+                            <Select
+                                native
+                                value={pats.JobID}
+                                onChange={handleChange}
+                                inputProps={{
+                                name: "JobID",
+                                }}
+                            >
+                        <option aria-label="None" value="">
+                            กรุณาเลือกอาชีพ
+                        </option>
+                        {jobs.map((item?: JobInterface) => (
+                        <option value={item?.ID} key={item?.ID}>
+                            {item?.JobName}
+                        </option>
+                        ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
 
 
                     <Grid item xs={4}>
-                        <p>สิทธิในการรักษา</p>
-                        <Autocomplete
-                            options={insurance_select}
-                            getOptionLabel={(option) => option.title}
-                            style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} 
-                            
-                            id="InsuranceID"
-
-                            label=""
-                            
-                            variant="outlined" />}
-                        />
+                    <FormControl fullWidth variant="outlined">
+                         <p>สิทธิในการรักษา</p>
+                            <Select
+                                native
+                                value={pats.InsuranceID}
+                                onChange={handleChange}
+                                inputProps={{
+                                    name: "InsuranceID",
+                                }}
+                            >
+                        <option aria-label="None" value="">
+                            กรุณาเลือกสิทธิในการรักษา
+                        </option>
+                        {ins.map((item?: InsuranceInterface) => (
+                        <option value={item?.ID} key={item?.ID}>
+                            {item?.InsuranceName}
+                        </option>
+                        ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
 
 
                     <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
                         <p>ข้อมูลสิทธิ</p>
                         <TextField
 
@@ -360,6 +488,7 @@ export default function Bodys() {
                             }}
                             variant="filled"
                         />
+                        </FormControl>
                     </Grid>
 
 

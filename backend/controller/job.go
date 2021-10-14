@@ -47,13 +47,12 @@ func ListJob(c *gin.Context) {
 
 
 	var jobs []entity.Job
-	if err := entity.DB().Raw("SELECT * FROM users").Find(&jobs).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM jobs").Find(&jobs).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": jobs})
-
 
 
 }

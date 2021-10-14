@@ -58,3 +58,23 @@ func ListUser(c *gin.Context) {
 
 }
 
+// GET /users/id
+
+func GetUser(c *gin.Context) {
+
+	var users entity.User
+
+	id := c.Param("id")
+
+	if err := entity.DB().Raw("SELECT name FROM users WHERE id = ?", id).Scan(&users).Error; err != nil {
+
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+			return
+
+	}
+
+
+	c.JSON(http.StatusOK, gin.H{"data": users})
+
+}

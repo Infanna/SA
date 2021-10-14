@@ -90,20 +90,6 @@ func SetupDatabase() {
 	db.Model(&Patient{}).Create(&patient2)
 
 
-	/*
-	var gender Sex
-	db.Model(&Sex{}).Find(&gender, db.where("sex_name = ?", 1)
-	
-	var view []*Patient
-	db.Model(&Patient{}).
-		joins("Sex")
-		Find(&Patient, db.where("sex_id = ? ", gender.ID))
-
-	for _, wl := range Patient{
-		fmt.Printf("%v/n", wl.Sex.sex_name)
-		fmt.Printf("%v/n", wl.Patient.PatientFirstname)
-		fmt.Println("===")
-	}*/
 
 
 }

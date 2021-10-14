@@ -52,6 +52,8 @@ func main() {
 
   r.GET("/users", controller.ListUser)
 
+  r.GET("/users/:id", controller.GetUser)
+
   r.POST("/user", controller.CreateUser)
 
   // watch pats
