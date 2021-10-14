@@ -34,7 +34,7 @@ function Form(){
     const [user, setUser] = React.useState<UserInterface[]>([]);
     return(
         <Container className={classes.container} maxWidth="sm">
-            <TableContainer component={Paper} className={classes.tableSpace}>
+            
             <Grid container spacing={2} className={classes.root}>
               
                 <Grid item xs={6} md={6} >
@@ -76,7 +76,7 @@ function Form(){
                         to="/list"
                         
                         variant="outlined"
-                        
+
                         color="primary">
                         Login
                 </Button>
@@ -84,7 +84,7 @@ function Form(){
 
 
             </Grid>
-            </TableContainer>
+         
         </Container>
 
 

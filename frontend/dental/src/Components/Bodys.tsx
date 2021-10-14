@@ -41,180 +41,196 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Bodys() {
 
+    const [detail, setDetail] = React.useState<String>();
+
+
+    const DetailChange = (event: React.ChangeEvent<{ id?: string; value: unknown }>
+    ) => {
+        const InsuranceIDValue = event.target.value as keyof typeof ins
+        const InsuranceID = parseInt(String(InsuranceIDValue))
+
+        for (let i = 0; i < ins.length; i++) {
+            if (ins[i].ID == InsuranceID) {
+                setDetail(ins[i].Detail);
+            }
+        }
+
+    };
+
 
 
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
-      ) => {
+    ) => {
         const name = event.target.name as keyof typeof pats
-        console.log("Name" , name)
+        console.log("Name", name)
         setPatient({
-          ...pats ,
-          [name]: event.target.value,
+            ...pats,
+            [name]: event.target.value,
         });
-      };
-
-      
-//ดึงข้อมูลเพศ
-const [sexs, setSex] = React.useState<SexInterface[]>([]);
-
-function getSex(){
-    const apiUrl = "http://localhost:8080/sexs";
-
-    const requestOptions = {
- 
-      method: "GET",
- 
-      headers: { "Content-Type": "application/json" },
-
- 
     };
- 
- 
-    fetch(apiUrl, requestOptions)
- 
-      .then((response) => response.json())
- 
-      .then((res) => {
-        console.log("Combobox_sex",res)
-        if (res.data) {
- 
-          setSex(res.data);
- 
-        } else {
- 
-          console.log("else");
- 
-        }
- 
-      });
-      
-}
-
-//ดึงข้อมูลอาชีพ
-const [jobs, setJob] = React.useState<JobInterface[]>([]);
-
-function getJob(){
-    const apiUrl = "http://localhost:8080/jobs";
-
-    const requestOptions = {
- 
-      method: "GET",
- 
-      headers: { "Content-Type": "application/json" },
-
- 
-    };
- 
- 
-    fetch(apiUrl, requestOptions)
- 
-      .then((response) => response.json())
- 
-      .then((res) => {
-        console.log("Combobox_job",res)
-        if (res.data) {
- 
-          setJob(res.data);
- 
-        } else {
- 
-          console.log("else");
- 
-        }
- 
-      });
-      
-}
-//ดึงข้อมูลสิทธิในการรักษา
-const [ins, setIns] = React.useState<InsuranceInterface[]>([]);
-
-function getIns(){
-    const apiUrl = "http://localhost:8080/insrs";
-
-    const requestOptions = {
- 
-      method: "GET",
- 
-      headers: { "Content-Type": "application/json" },
-
- 
-    };
- 
- 
-    fetch(apiUrl, requestOptions)
- 
-      .then((response) => response.json())
- 
-      .then((res) => {
-        console.log("Combobox_Ins",res)
-        if (res.data) {
- 
-          setIns(res.data);
- 
-        } else {
- 
-          console.log("else");
- 
-        }
- 
-      });
-      
-}
-
-//ดึงข้อมูลUser
-const [users, setUser] = React.useState<UserInterface[]>([]);
-
-function getUser(){
-    const apiUrl = "http://localhost:8080/users";
-
-    const requestOptions = {
- 
-      method: "GET",
- 
-      headers: { "Content-Type": "application/json" },
-
- 
-    };
- 
- 
-    fetch(apiUrl, requestOptions)
- 
-      .then((response) => response.json())
- 
-      .then((res) => {
-        console.log("Combobox_User",res)
-        if (res.data) {
- 
-          setUser(res.data);
- 
-        } else {
- 
-          console.log("else");
- 
-        }
- 
-      });
-      
-}
 
 
+    //ดึงข้อมูลเพศ
+    const [sexs, setSex] = React.useState<SexInterface[]>([]);
 
-//ดึงข้อมูล ใส่ combobox
-useEffect(() => {
-    
-    getSex();
-    getJob();
-    getIns();
-    getUser();
-  
-  }, []);
+    function getSex() {
+        const apiUrl = "http://localhost:8080/sexs";
 
-  
+        const requestOptions = {
 
+            method: "GET",
+
+            headers: { "Content-Type": "application/json" },
 
 
-//สร้างข้อมูล
+        };
+
+
+        fetch(apiUrl, requestOptions)
+
+            .then((response) => response.json())
+
+            .then((res) => {
+                console.log("Combobox_sex", res)
+                if (res.data) {
+
+                    setSex(res.data);
+
+                } else {
+
+                    console.log("else");
+
+                }
+
+            });
+
+    }
+
+    //ดึงข้อมูลอาชีพ
+    const [jobs, setJob] = React.useState<JobInterface[]>([]);
+
+    function getJob() {
+        const apiUrl = "http://localhost:8080/jobs";
+
+        const requestOptions = {
+
+            method: "GET",
+
+            headers: { "Content-Type": "application/json" },
+
+
+        };
+
+
+        fetch(apiUrl, requestOptions)
+
+            .then((response) => response.json())
+
+            .then((res) => {
+                console.log("Combobox_job", res)
+                if (res.data) {
+
+                    setJob(res.data);
+
+                } else {
+
+                    console.log("else");
+
+                }
+
+            });
+
+    }
+    //ดึงข้อมูลสิทธิในการรักษา
+    const [ins, setIns] = React.useState<InsuranceInterface[]>([]);
+
+    function getIns() {
+        const apiUrl = "http://localhost:8080/insrs";
+
+        const requestOptions = {
+
+            method: "GET",
+
+            headers: { "Content-Type": "application/json" },
+
+
+        };
+
+
+        fetch(apiUrl, requestOptions)
+
+            .then((response) => response.json())
+
+            .then((res) => {
+                console.log("Combobox_Ins", res)
+                if (res.data) {
+
+                    setIns(res.data);
+
+                } else {
+
+                    console.log("else");
+
+                }
+
+            });
+
+    }
+
+    //ดึงข้อมูลUser
+    const [users, setUser] = React.useState<UserInterface[]>([]);
+
+    function getUser() {
+        const apiUrl = "http://localhost:8080/users";
+
+        const requestOptions = {
+
+            method: "GET",
+
+            headers: { "Content-Type": "application/json" },
+
+
+        };
+
+
+        fetch(apiUrl, requestOptions)
+
+            .then((response) => response.json())
+
+            .then((res) => {
+                console.log("Combobox_User", res)
+                if (res.data) {
+
+                    setUser(res.data);
+
+                } else {
+
+                    console.log("else");
+
+                }
+
+            });
+
+    }
+
+
+
+    //ดึงข้อมูล ใส่ combobox
+    useEffect(() => {
+
+        getSex();
+        getJob();
+        getIns();
+        getUser();
+
+    }, []);
+
+
+
+
+
+    //สร้างข้อมูล
     const [pats, setPatient] = React.useState<Partial<PatientInterface>>({});
 
     const [success, setSuccess] = React.useState(false);
@@ -235,22 +251,24 @@ useEffect(() => {
 
     };
 
-    
+
     const handleInputChange = (
 
         event: React.ChangeEvent<{ id?: string; value: any }>
-        
+
     ) => {
 
         const id = event.target.id as keyof typeof Bodys;
 
         const { value } = event.target;
-        console.log("Value",value)
-        console.log("ID",id)
+        console.log("Value", value)
+        console.log("ID", id)
         setPatient({ ...pats, [id]: value });
 
     };
-    
+
+    const [ErrorMessage ,setErrorMessage] = React.useState<String>();
+
 
     function submit() {
 
@@ -277,43 +295,75 @@ useEffect(() => {
             UserID: typeof pats.UserID === "string" ? parseInt(pats.UserID) : 0,
         };
 
-        if (data.PatientIDcard) {
-
+        if(data.PatientFirstname == ""){
+            setErrorMessage("กรุณากรอกชื่อ")
+            setError(true)
+        }else if(data.PatientLastname == ""){
+            setErrorMessage("กรุณากรอกนามสกุล")
+            setError(true)
+        }else if (!/^\d{13}$/.test(data.PatientIDcard.toString())) {
+            setErrorMessage("เลขบัตรประชาชนไม่ถูกต้อง")
+            setError(true)
+        }else if(!/\d/.test(data.PatientAge.toString()) || data.PatientAge < 0){
+            setErrorMessage("อายุไม่ถูกต้อง")
+            setError(true)
+        }else if(!/^\d{10}$/.test(data.PatientTel.toString())){
+            setErrorMessage("เบอร์โทรไม่ถูกต้อง")
+            setError(true)
+        }else if(data.SexID == 0 ){
+            setErrorMessage("กรุณาเลือกเพศ")
+            setError(true)
+        }else if(data.JobID == 0 ){
+            setErrorMessage("กรุณาเลือกอาชีพ")
+            setError(true)
+        }else if(data.InsuranceID == 0 ){
+            setErrorMessage("กรุณาเลือกสิทธิในการรักษา")
+            setError(true)
         }
+        else {
 
-        console.log("Data",data)
+            console.log("Data", data)
 
-        const apiUrl = "http://localhost:8080/patient";
+            const apiUrl = "http://localhost:8080/patient";
 
-        const requestOptions = {
-     
-          method: "POST",
-     
-          headers: { "Content-Type": "application/json" },
-     
-          body: JSON.stringify(data),
-     
-        };
-     
-     
-        fetch(apiUrl, requestOptions)
-     
-          .then((response) => response.json())
-     
-          .then((res) => {
-            console.log("Res",res)
-            if (res.data) {
-     
-              setSuccess(true);
-     
-            } else {
-     
-              setError(true);
-     
-            }
-     
-          });
-          
+            const requestOptions = {
+
+                method: "POST",
+
+                headers: { "Content-Type": "application/json" },
+
+                body: JSON.stringify(data),
+
+            };
+
+
+
+            fetch(apiUrl, requestOptions)
+
+                .then((response) => response.json())
+
+                .then((res) => {
+                    console.log("Res", res)
+                    if (res.data) {
+
+                        setSuccess(true);
+
+                    } else {
+                        if(res.error == "UNIQUE constraint failed: patients.patient_idcard"){
+                            setErrorMessage("เลขบัตรประจำตัวประชาชนซ้ำ")
+                        }
+                        else{
+                            setErrorMessage("บันทึกข้อมูลไม่สำเร็จ")
+                        }
+                        
+                        setError(true)
+                        
+
+                    }
+
+                });
+        }
+        
     }
 
 
@@ -338,7 +388,7 @@ useEffect(() => {
 
                 <Alert onClose={handleClose} severity="error">
 
-                    บันทึกข้อมูลไม่สำเร็จ
+                    {ErrorMessage}
 
                 </Alert>
 
@@ -385,9 +435,9 @@ useEffect(() => {
                             type="string"
 
                             size="medium"
-                            
-                            onChange={handleInputChange} 
-                            />
+
+                            onChange={handleInputChange}
+                        />
                     </Grid>
 
                     <Grid item xs={3} >
@@ -406,16 +456,16 @@ useEffect(() => {
 
                             onChange={handleInputChange}
 
-                             />
+                        />
                     </Grid>
 
 
                     <Grid item xs={2}>
                         <p>อายุ</p>
-                        <TextField 
+                        <TextField
 
 
-                            type = "number"
+                            type="number"
 
                             style={{ width: 140 }}
 
@@ -431,68 +481,68 @@ useEffect(() => {
 
                     <Grid item xs={3}>
                         <FormControl fullWidth variant="outlined">
-                         <p>เพศ</p>
+                            <p>เพศ</p>
                             <Select
                                 native
                                 value={pats.SexID}
                                 onChange={handleChange}
                                 inputProps={{
-                                name: "SexID",
+                                    name: "SexID",
                                 }}
                             >
-                        <option aria-label="None" value="">
-                            เลือกเพศ
-                        </option>
-                        {sexs.map((item: SexInterface) => (
-                        <option value={item.ID} key={item.ID}>
-                            {item.SexName}
-                        </option>
-                        ))}
+                                <option aria-label="None" value="">
+                                    เลือกเพศ
+                                </option>
+                                {sexs.map((item: SexInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.SexName}
+                                    </option>
+                                ))}
                             </Select>
                         </FormControl>
-                     </Grid>
+                    </Grid>
 
 
                     <Grid item xs={5}>
                         <p>รหัสบัตรประจำตัวประชาชน</p>
-                        <TextField 
-                        
-                            type = "number"
+                        <TextField
 
-                            style={{ width: 360 }} 
+                            type="text"
 
-                            id="PatientIDcard" 
-                            
-                            label="กรอกรหัสบัตรประจำตัวประชาชน" 
-                            
-                            variant="outlined"                         
+                            style={{ width: 360 }}
+
+                            id="PatientIDcard"
+
+                            label="กรอกรหัสบัตรประจำตัวประชาชน"
+
+                            variant="outlined"
 
                             onChange={handleInputChange}
-                            />
+                        />
                     </Grid>
 
 
                     <Grid item xs={6}>
                         <p>เบอร์โทร</p>
-                        <TextField 
+                        <TextField
 
-                            type = "tel"
+                            type="tel"
 
-                            style={{ width: 200 }} 
+                            style={{ width: 200 }}
 
-                            id="PatientTel" 
-                            
-                            label="กรอกเบอร์โทร" 
-                            
-                            variant="outlined" 
+                            id="PatientTel"
+
+                            label="กรอกเบอร์โทร"
+
+                            variant="outlined"
 
                             onChange={handleInputChange}
-                            />
+                        />
                     </Grid>
 
                     <Grid item xs={5}>
-                    <FormControl fullWidth variant="outlined">
-                         <p>อาชีพ</p>
+                        <FormControl fullWidth variant="outlined">
+                            <p>อาชีพ</p>
                             <Select
                                 native
 
@@ -504,74 +554,56 @@ useEffect(() => {
                                     name: "JobID",
                                 }}
                             >
-                        <option aria-label="None" value="">
-                            เลือกอาชีพ
-                        </option>
-                        {jobs.map((item: JobInterface) => (
-                        <option value={item.ID} key={item.ID}>
-                            {item.JobName}
-                        </option>
-                        ))}
+                                <option aria-label="None" value="">
+                                    เลือกอาชีพ
+                                </option>
+                                {jobs.map((item: JobInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.JobName}
+                                    </option>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
 
 
                     <Grid item xs={4}>
-                    <FormControl fullWidth variant="outlined">
-                         <p>สิทธิในการรักษา</p>
+                        <FormControl fullWidth variant="outlined">
+                            <p>สิทธิในการรักษา</p>
                             <Select
-                            
+
                                 native
 
                                 value={pats.InsuranceID}
+                                onChange={e => { handleChange(e); DetailChange(e) }}
 
-                                onChange={handleChange}
-                                
+
                                 inputProps={{
                                     name: "InsuranceID",
+                                    id: "ID",
                                 }}
                             >
-                        <option aria-label="None" value="">
-                            เลือกสิทธิในการรักษา
-                        </option>
-                        {ins.map((item: InsuranceInterface) => (
-                        <option value={item.ID} key={item.ID}>
-                            {item.InsuranceName}
-                        </option>       
-                                                            
-                        ))}
+                                <option aria-label="None" value="">
+                                    เลือกสิทธิในการรักษา
+                                </option>
+                                {ins.map((item: InsuranceInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.InsuranceName}
+                                    </option>
+                                ))}
                             </Select>
                         </FormControl>
+
                     </Grid>
 
 
-                    <Grid item xs={11}>
-                    <FormControl fullWidth variant="outlined">
-                         <p>ข้อมูลสิทธิ</p>
-                            <Select
-                                native                      
-                                disabled
-                            >
-                        <option aria-label="None" value="">
-                            แสดงรายละเอียดข้อมูลพื้นฐาน
-                        </option>           
-                        {ins.map((item: InsuranceInterface) => (
-                        <option key={item.ID}>
-                            {item.Detail}
-                        </option>                         
-                        ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
 
 
-                  
-                    <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined">
-                         <p>ผู้บันทึก</p>
+                    <Grid item xs={5}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>ผู้บันทึก</p>
                             <Select
-                            
+
                                 native
 
                                 value={pats.UserID}
@@ -582,17 +614,24 @@ useEffect(() => {
                                     name: "UserID",
                                 }}
                             >
-                        <option aria-label="None" value="">
-                            ผู้บันทึก
-                        </option>
-                        {users.map((item: UserInterface) => (
-                        <option value={item.ID} key={item.ID}>
-                            {item.Name}
-                        </option>                         
-                        ))}
+                                <option aria-label="None" value="">
+                                    ผู้บันทึก
+                                </option>
+                                {users.map((item: UserInterface) => (
+                                    <option value={item.ID} key={item.ID}>
+                                        {item.Name}
+                                    </option>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
+
+
+                    <Grid item xs={5} className={classes.root}>
+                        {detail}
+                    </Grid>
+
+
 
 
                     <Grid item xs={12}>
