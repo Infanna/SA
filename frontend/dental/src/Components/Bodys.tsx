@@ -21,7 +21,8 @@ import "react-time"
 import { useEffect } from "react";
 import { FormControl, Select } from "@material-ui/core";
 
-function Alert(props: AlertProps) {
+
+function Alert(props: AlertProps): JSX.Element {
 
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 
@@ -49,10 +50,16 @@ export default function Bodys() {
         const InsuranceIDValue = event.target.value as keyof typeof ins
         const InsuranceID = parseInt(String(InsuranceIDValue))
 
+        console.log("DetailChange ID =", InsuranceID)
         for (let i = 0; i < ins.length; i++) {
             if (ins[i].ID == InsuranceID) {
                 setDetail(ins[i].Detail);
+                break
             }
+            else {
+                setDetail("");
+            }
+
         }
 
     };
@@ -267,7 +274,7 @@ export default function Bodys() {
 
     };
 
-    const [ErrorMessage ,setErrorMessage] = React.useState<String>();
+    const [ErrorMessage, setErrorMessage] = React.useState<String>();
 
 
     function submit() {
@@ -278,7 +285,7 @@ export default function Bodys() {
 
             PatientLastname: pats.PatientLastname ?? "",
 
-            PatientAge: typeof pats.PatientAge === "string" ? parseInt(pats.PatientAge) : 0,
+            PatientAge: typeof pats.PatientAge === "string" ? parseInt(pats.PatientAge) : NaN,
 
             PatientIDcard: pats.PatientIDcard ?? "",
 
@@ -286,37 +293,38 @@ export default function Bodys() {
 
             PatientTime: new Date(),
 
-            SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : 0,
+            SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : NaN,
 
-            JobID: typeof pats.JobID === "string" ? parseInt(pats.JobID) : 0,
+            JobID: typeof pats.JobID === "string" ? parseInt(pats.JobID) : NaN,
 
-            InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : 0,
+            InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : NaN,
 
-            UserID: typeof pats.UserID === "string" ? parseInt(pats.UserID) : 0,
+            UserID: typeof pats.UserID === "string" ? parseInt(pats.UserID) : 1,
         };
+        console.log("Error Chack Sex", data.SexID, "\nError Chack Job", data.JobID, "\nError Chack Insurance", data.InsuranceID)
 
-        if(data.PatientFirstname == ""){
+        if (data.PatientFirstname == "") {
             setErrorMessage("กรุณากรอกชื่อ")
             setError(true)
-        }else if(data.PatientLastname == ""){
+        } else if (data.PatientLastname == "") {
             setErrorMessage("กรุณากรอกนามสกุล")
             setError(true)
-        }else if (!/^\d{13}$/.test(data.PatientIDcard.toString())) {
-            setErrorMessage("เลขบัตรประชาชนไม่ถูกต้อง")
-            setError(true)
-        }else if(!/\d/.test(data.PatientAge.toString()) || data.PatientAge < 0){
+        } else if (!/\d/.test(data.PatientAge.toString()) || data.PatientAge <= 0) {
             setErrorMessage("อายุไม่ถูกต้อง")
             setError(true)
-        }else if(!/^\d{10}$/.test(data.PatientTel.toString())){
-            setErrorMessage("เบอร์โทรไม่ถูกต้อง")
-            setError(true)
-        }else if(data.SexID == 0 ){
+        } else if (isNaN(data.SexID)) {
             setErrorMessage("กรุณาเลือกเพศ")
             setError(true)
-        }else if(data.JobID == 0 ){
+        } else if (!/^\d{13}$/.test(data.PatientIDcard.toString())) {
+            setErrorMessage("เลขบัตรประชาชนไม่ถูกต้อง")
+            setError(true)
+        } else if (!/^\d{10}$/.test(data.PatientTel.toString())) {
+            setErrorMessage("เบอร์โทรไม่ถูกต้อง")
+            setError(true)
+        } else if (isNaN(data.JobID)) {
             setErrorMessage("กรุณาเลือกอาชีพ")
             setError(true)
-        }else if(data.InsuranceID == 0 ){
+        } else if (isNaN(data.InsuranceID)) {
             setErrorMessage("กรุณาเลือกสิทธิในการรักษา")
             setError(true)
         }
@@ -349,21 +357,21 @@ export default function Bodys() {
                         setSuccess(true);
 
                     } else {
-                        if(res.error == "UNIQUE constraint failed: patients.patient_idcard"){
+                        if (res.error == "UNIQUE constraint failed: patients.patient_idcard") {
                             setErrorMessage("เลขบัตรประจำตัวประชาชนซ้ำ")
                         }
-                        else{
+                        else {
                             setErrorMessage("บันทึกข้อมูลไม่สำเร็จ")
                         }
-                        
+
                         setError(true)
-                        
+
 
                     }
 
                 });
         }
-        
+
     }
 
 
@@ -475,22 +483,27 @@ export default function Bodys() {
 
                             variant="outlined"
 
+                            InputProps={{ inputProps: { min: 1 } }}
+
                             onChange={handleInputChange}
                         />
                     </Grid>
 
                     <Grid item xs={3}>
-                        <FormControl fullWidth variant="outlined">
+
+                        <FormControl fullWidth variant="outlined" style={{ width: 140 }}>
                             <p>เพศ</p>
                             <Select
+
                                 native
                                 value={pats.SexID}
                                 onChange={handleChange}
                                 inputProps={{
+
                                     name: "SexID",
                                 }}
                             >
-                                <option aria-label="None" value="">
+                                <option aria-label="None" value="" >
                                     เลือกเพศ
                                 </option>
                                 {sexs.map((item: SexInterface) => (
@@ -503,13 +516,13 @@ export default function Bodys() {
                     </Grid>
 
 
-                    <Grid item xs={5}>
+                    <Grid item xs={4}>
                         <p>รหัสบัตรประจำตัวประชาชน</p>
                         <TextField
 
                             type="text"
 
-                            style={{ width: 360 }}
+                            style={{ width: 295 }}
 
                             id="PatientIDcard"
 
@@ -522,13 +535,13 @@ export default function Bodys() {
                     </Grid>
 
 
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
                         <p>เบอร์โทร</p>
                         <TextField
 
                             type="tel"
 
-                            style={{ width: 200 }}
+                            style={{ width: 220 }}
 
                             id="PatientTel"
 
@@ -540,8 +553,8 @@ export default function Bodys() {
                         />
                     </Grid>
 
-                    <Grid item xs={5}>
-                        <FormControl fullWidth variant="outlined">
+                    <Grid item xs={3}>
+                        <FormControl fullWidth variant="outlined" style={{ width: 220 }}>
                             <p>อาชีพ</p>
                             <Select
                                 native
@@ -568,7 +581,7 @@ export default function Bodys() {
 
 
                     <Grid item xs={4}>
-                        <FormControl fullWidth variant="outlined">
+                        <FormControl fullWidth variant="outlined" style={{ width: 295 }}>
                             <p>สิทธิในการรักษา</p>
                             <Select
 
@@ -583,7 +596,7 @@ export default function Bodys() {
                                     id: "ID",
                                 }}
                             >
-                                <option aria-label="None" value="">
+                                <option aria-label="None" value="" >
                                     เลือกสิทธิในการรักษา
                                 </option>
                                 {ins.map((item: InsuranceInterface) => (
@@ -596,27 +609,39 @@ export default function Bodys() {
 
                     </Grid>
 
+                    <Grid item xs={5} className={classes.root}>
+                        <p>ข้อมูลสิทธิ</p>
+                        <TextField
+
+                            multiline
+                            defaultValue = {detail}
+                            rows={3}
+
+                            disabled
+
+                            type="text"
+
+                            style={{ width: 450 }}
+
+                            id="Detail"
+
+                            
+
+                            variant="outlined"
 
 
+                        />
 
-                    <Grid item xs={5}>
-                        <FormControl fullWidth variant="outlined">
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <FormControl fullWidth variant="outlined" style={{ width: 300 }}>
                             <p>ผู้บันทึก</p>
                             <Select
+                                disabled
 
                                 native
-
-                                value={pats.UserID}
-
-                                onChange={handleChange}
-
-                                inputProps={{
-                                    name: "UserID",
-                                }}
                             >
-                                <option aria-label="None" value="">
-                                    ผู้บันทึก
-                                </option>
                                 {users.map((item: UserInterface) => (
                                     <option value={item.ID} key={item.ID}>
                                         {item.Name}
@@ -625,13 +650,6 @@ export default function Bodys() {
                             </Select>
                         </FormControl>
                     </Grid>
-
-
-                    <Grid item xs={5} className={classes.root}>
-                        {detail}
-                    </Grid>
-
-
 
 
                     <Grid item xs={12}>

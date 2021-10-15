@@ -18,7 +18,6 @@ import (
 func CreateUser(c *gin.Context) {
 
 	var user entity.User
-
 	if err := c.ShouldBindJSON(&user); err != nil {
 
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -47,6 +46,7 @@ func ListUser(c *gin.Context) {
 
 
 	var users []entity.User
+
 	if err := entity.DB().Raw("SELECT * FROM users").Find(&users).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -66,7 +66,7 @@ func GetUser(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT name FROM users WHERE id = ?", id).Scan(&users).Error; err != nil {
+	if err := entity.DB().Raw("SELECT name FROM users WHERE username = ?", id).Scan(&users).Error; err != nil {
 
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

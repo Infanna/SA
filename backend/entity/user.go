@@ -5,6 +5,13 @@ import (
 	"gorm.io/gorm"
 )
 
+type Role struct {
+	gorm.Model
+	RoleName	string
+
+	User	[]User	`gorm:"foreignKey:RoleID"`
+}
+
 type User struct {
 	gorm.Model
 	Name	   string	
@@ -12,6 +19,9 @@ type User struct {
 	Pass	   string
 
 	Patients	[]Patient	`gorm:"foreignKey:UserID"`
+
+	RoleID		*uint
+	Role		Role
 
 }
 

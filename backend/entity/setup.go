@@ -40,51 +40,74 @@ func SetupDatabase() {
 	db.Model(&Sex{}).Create(&sex2)
 
 	job1 := Job{
-		JobName:			"นักศึกษา",
+		JobName:			"ราชการ",
 	}
 	db.Model(&Job{}).Create(&job1)
 
+	job2 := Job{
+		JobName:			"รัฐวิสหกิจ",
+	}
+	db.Model(&Job{}).Create(&job2)
+
+	job3 := Job{
+		JobName:			"นักศึกษา",
+	}
+	db.Model(&Job{}).Create(&job3)
+
 
 	insurance1 := Insurance{
-		InsuranceName:		"ประกันสุขภาพ30บาท",
-		Detail:				"ค่าใช้จ่ายของผู้ป่วยทั้งหมด 30 บาท",
+		InsuranceName:		"สิทธิสวัสดิการข้าราชการ",
+		Detail:				"ข้าราชการและบคุคลในครอบครัวสามารถใช้สิทธิ์เบิกจ่ายตรง โดยใช้บัตรประชาชนในการเข้ารับบริการรักษาพยาบาลประเภทผู้ป่วยนอกทุกครั้ง ณ จุดชำระเงินโดยหากไม่ได้นำบัตรประชาชนมาแสดง หรือเอกสารที่กรมบัญชีกลางกำหนด ผู้รับบริการจะต้องสำรองจ่ายเงินค่ารักษาพยาบาลไปก่อน แล้วนำใบเสร็จรับเงินไปเบิกคืนกับส่วนราชการต้นสังกัด",
 	}
 	db.Model(&Insurance{}).Create(&insurance1)
 
 	insurance2 := Insurance{
-		InsuranceName:		"ประกันสังคม",
-		Detail:				"เบิกจากรัฐได้",
+		InsuranceName:		"สิทธิประกันสังคม",
+		Detail:				"สามารถใช้สิทธิ์ได้เฉพาะกรณีที่มีใบส่งตัวมาจากโรงพยาบาลต้นสังกัด และชำระเงินสดเท่านั้น ยกเว้น กรณีมีใบส่งตัวยืนยันการให้วางบิลโรงพยาบาลต้นสังกัดได้ ",
 	}
 	db.Model(&Insurance{}).Create(&insurance2)
 
+	insurance3 := Insurance{
+		InsuranceName:		"สิทธิหลักประกันสุขภาพ 30 บาท",
+		Detail:				"คุ้มครองบุคคลที่เป็นคนไทยมีเลขประจำตัวประชาชน 13 หลักที่ไม่ได้รับสิทธิสวัสดิการข้าราชการ หรือ สิทธิประกันสังคม หรือสิทธิสวัสดิการรัฐวิสาหกิจ หรือสิทธิอื่น ๆ จากรัฐ",
+	}
+	db.Model(&Insurance{}).Create(&insurance3)
+
+	ro1 :=Role{
+		RoleName:		"พยาบาล",
+	}
+	db.Model(&Role{}).Create(&ro1)
 
 	us1 := User{
 		Name:			"สมชาย มาบันทึก",
 		UserName:		"qwert",
 		Pass:			"12345",
+		Role:			ro1,
 	}
 	db.Model(&User{}).Create(&us1)
 
+
+
 	patient1 := Patient{
-		PatientFirstname:	"patcharachart",
-		PatientLastname:	"jirasrisopa",
+		PatientFirstname:	"พัชรชาติ",
+		PatientLastname:	"จิรศรีโสภา",
 		PatientAge:			20,
-		PatientIDcard:		"1329901010000",
+		PatientIDcard:		"1329900000000",
 		PatientTel:			"0902571569",
 		PatientTime: 		time.Now(),
 		Sex:				sex1,
-		Job:				job1,
-		Insurance:			insurance1,
+		Job:				job3,
+		Insurance:			insurance3,
 		User:				us1,
 		
 	}
 	db.Model(&Patient{}).Create(&patient1)
 
 	patient2 := Patient{
-		PatientFirstname:	"asd",
-		PatientLastname:	"gggg",
-		PatientAge:			10,
-		PatientIDcard:		"1329900010000",
+		PatientFirstname:	"สมหญิง",
+		PatientLastname:	"ซิ่งรถไถ",
+		PatientAge:			26,
+		PatientIDcard:		"1329900000001",
 		PatientTel:			"0808571549",
 		PatientTime: 		time.Now(),
 		Sex:				sex2,

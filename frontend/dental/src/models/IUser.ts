@@ -1,3 +1,5 @@
+import { RoleInterface } from "./IRole";
+
 export interface UserInterface {
 
     ID: number,
@@ -7,6 +9,8 @@ export interface UserInterface {
     UserName: string;
 
     Pass: string;
+
+    RoleID : number;
 
 
    }
