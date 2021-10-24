@@ -8,7 +8,7 @@ export interface UserInterface {
 
     UserName: string;
 
-    Pass: string;
+    Password: string;
 
     RoleID : number;
 

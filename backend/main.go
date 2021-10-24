@@ -7,6 +7,8 @@ import (
 
   "github.com/Infanna/sa-64-example/entity"
 
+  "github.com/Infanna/sa-64-example/middlewares"
+
   "github.com/gin-gonic/gin"
 
 
@@ -19,57 +21,58 @@ func main() {
 
   r := gin.Default()
   r.Use(CORSMiddleware())
+  api := r.Group("")
+	{
+    protected := api.Use(middlewares.Authorizes())
+		{
+        // Insurance
 
-  // Insurance
+        protected.GET("/insrs", controller.ListInsurance)
 
-  r.GET("/insrs", controller.ListInsurance)
-
-  r.POST("/insr", controller.CreateInsurance)
+        protected.POST("/insr", controller.CreateInsurance)
   
 
-  // Job
+        // Job
 
-  r.GET("/jobs", controller.ListJob)
+        protected.GET("/jobs", controller.ListJob)
 
-  r.POST("/job", controller.CreateJob)
-
-
-  // Patient
-
-  r.GET("/patients", controller.ListPatient)
-
-  r.POST("/patient", controller.CreatePatient)
+        protected.POST("/job", controller.CreateJob)
 
 
-  // Sex
+        // Patient
 
-  r.GET("/sexs", controller.ListSex)
+        protected.GET("/patients", controller.ListPatient)
 
-  r.POST("/sex", controller.CreateSex)
+        protected.POST("/patient", controller.CreatePatient)
+
+
+        // Sex
+
+        protected.GET("/sexs", controller.ListSex)
+
+        protected.POST("/sex", controller.CreateSex)
   
 
-  // user
+        // user
 
-  r.GET("/users", controller.ListUser)
+        protected.GET("/users", controller.ListUser)
 
-  r.GET("/users/:id", controller.GetUser)
+        protected.GET("/users/:id", controller.GetUser)
 
-  r.POST("/user", controller.CreateUser)
+        protected.POST("/user", controller.CreateUser)
 
   
-  // role
+        // role
 
-  r.GET("/roles", controller.ListRole)
+        protected.GET("/roles", controller.ListRole)
 
-  r.POST("/role", controller.CreateRole)
+        protected.POST("/role", controller.CreateRole)
 
+      }
+  }
 
-
-  // watch pats
-
-  r.GET("/wpats", controller.ListWatchPatient)
-
-  r.POST("/wpat", controller.CreateWatchPatient)
+	// Authentication Routes
+	r.POST("/login", controller.Login)
 
 
   // Run the server
