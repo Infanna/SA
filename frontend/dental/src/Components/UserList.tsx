@@ -147,7 +147,7 @@ function WatchPatientList() {
    
               >
    
-                สร้างประวัติใหม่
+                สร้างประวัติผู้ป่วยใหม่
    
               </Button>
    

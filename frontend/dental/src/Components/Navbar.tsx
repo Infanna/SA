@@ -1,4 +1,4 @@
-  
+
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     icon: {
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-      },
+      width: theme.spacing(5),
+      height: theme.spacing(5),
+    },
   }),
 );
 
@@ -33,6 +33,8 @@ const signout = () => {
   localStorage.clear();
   window.location.href = "/";
 };
+
+
 
 
 export default function ButtonAppBar() {
@@ -48,13 +50,16 @@ export default function ButtonAppBar() {
           <Typography variant="h5" className={classes.title}>
             เวชระเบียน
           </Typography>
+
+          
+
           <Button style={{ float: "right" }}
-                            onClick={signout}
-                            variant="outlined"
-                            color="inherit">
-                            Logout
-                        </Button>
-          <Avatar src="/broken-image.jpg" className={classes.icon}/>
+            onClick={signout}
+            variant="outlined"
+            color="inherit">
+            Logout
+          </Button>
+          <Avatar src="/broken-image.jpg" className={classes.icon} />
         </Toolbar>
       </AppBar>
     </div>

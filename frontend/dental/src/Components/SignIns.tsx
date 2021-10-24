@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
   const classes = useStyles();
-  const [signin, setSignin] = useState<Partial<SigninInterface>>({});
+  const [signin, setSignin] = useState<Partial<UserInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 

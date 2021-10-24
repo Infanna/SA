@@ -8,11 +8,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { PatientInterface } from "../models/IPat";
-import { UserInterface } from "../models/IUser";
-import { SexInterface } from "../models/ISex";
-import { JobInterface } from "../models/IJob";
-import { InsuranceInterface } from "../models/IIns";
+
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -21,13 +17,20 @@ import "react-time"
 import { useEffect } from "react";
 import { FormControl, Select } from "@material-ui/core";
 
+import { PatientInterface } from "../models/IPat";
+import { UserInterface } from "../models/IUser";
+import { SexInterface } from "../models/ISex";
+import { JobInterface } from "../models/IJob";
+import { InsuranceInterface } from "../models/IIns";
+import { SigninInterface } from "../models/ISignin";
+
+
 
 function Alert(props: AlertProps): JSX.Element {
 
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 
 }
-
 
 
 
@@ -40,9 +43,10 @@ const useStyles = makeStyles((theme: Theme) =>
         table: { minWidth: 20 }
     }));
 
-export default function Bodys() {
+export default function Bodys(this: any) {
 
     const [detail, setDetail] = React.useState<String>();
+    
 
 
     const DetailChange = (event: React.ChangeEvent<{ id?: string; value: unknown }>
@@ -64,10 +68,11 @@ export default function Bodys() {
 
     };
 
-    
+
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
+        lockuser();
         const name = event.target.name as keyof typeof pats
         console.log("Name", name)
         setPatient({
@@ -90,7 +95,7 @@ export default function Bodys() {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json",
-              },
+            },
 
 
         };
@@ -128,7 +133,7 @@ export default function Bodys() {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json",
-              },
+            },
 
 
         };
@@ -166,7 +171,7 @@ export default function Bodys() {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json",
-              },
+            },
 
 
         };
@@ -197,15 +202,15 @@ export default function Bodys() {
 
     function getUser() {
         const apiUrl = "http://localhost:8080/users";
-
+        
         const requestOptions = {
-
+            
             method: "GET",
 
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json",
-              },
+            },
 
 
         };
@@ -216,6 +221,7 @@ export default function Bodys() {
 
             .then((res) => {
                 console.log("Combobox_User", res)
+                
                 if (res.data) {
 
                     setUser(res.data);
@@ -229,14 +235,76 @@ export default function Bodys() {
             });
 
     }
+    //real useronline
+ /*   const [Useronline, setUseronline] = React.useState<UserInterface[]>([]);
+
+    function getUseronline() {
+        const apiUrl = "http://localhost:8080//users/:id";
+
+        const requestOptions = {
+
+            method: "GET",
+
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
+
+
+        };
+
+        fetch(apiUrl, requestOptions)
+
+            .then((response) => response.json())
+
+            .then((res) => {
+                console.log("Combobox_Useronline", res)
+                
+                if (res.data) {
+
+                    setUseronline(res.data);
+
+                } else {
+
+                    console.log("else");
+
+                }
+
+            });
+
+    }*/
+
+    const [Useronline, setUseronline] = React.useState<String>();
+    const UserID = Number(localStorage.getItem("uid"))
+    function lockuser() {
+        
+        console.log("UserID =", UserID)
+        for (let i = 0; i < users.length; i++) {
+            console.log("Useronline =", users[i].Name)
+            if (users[i].ID == UserID) {
+                setUseronline(users[i].Name);
+                console.log("Useronline set =", users[i].Name)
+                break
+            }
+            else {
+                setUseronline("fff");
+            }
+
+        }
+        
+    }
+    
 
     //ดึงข้อมูล ใส่ combobox
     useEffect(() => {
-
+       /* lockuser();*/
         getSex();
         getJob();
         getIns();
         getUser();
+        console.log("test", "1")
+        
+       /* getUseronline();*/
 
     }, []);
 
@@ -284,6 +352,7 @@ export default function Bodys() {
     const [ErrorMessage, setErrorMessage] = React.useState<String>();
 
 
+
     function submit() {
 
         let data = {
@@ -306,7 +375,7 @@ export default function Bodys() {
 
             InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : NaN,
 
-            UserID: typeof pats.UserID === "string" ? parseInt(pats.UserID) : 1,
+            UserID: Number(localStorage.getItem("uid")),
         };
         console.log("Error Chack Sex", data.SexID, "\nError Chack Job", data.JobID, "\nError Chack Insurance", data.InsuranceID)
 
@@ -348,7 +417,7 @@ export default function Bodys() {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "application/json",
-                  },
+                },
 
                 body: JSON.stringify(data),
 
@@ -422,11 +491,12 @@ export default function Bodys() {
 
                         <Button style={{ float: "right" }}
                             component={RouterLink}
-                            to="/"
+                            to="/list"
                             variant="contained"
                             color="primary">
                             รายชื่อ
                         </Button>
+
 
 
                     </Typography>
@@ -619,7 +689,7 @@ export default function Bodys() {
                         <TextField
 
                             multiline
-                            defaultValue = {detail}
+                            defaultValue={detail}
                             rows={3}
 
                             disabled
@@ -640,15 +710,15 @@ export default function Bodys() {
                         <FormControl fullWidth variant="outlined" style={{ width: 300 }}>
                             <p>ผู้บันทึก</p>
                             <Select
-                                disabled
+                               
 
                                 native
                             >
-                                {users.map((item: UserInterface) => (
-                                    <option value={item.ID} key={item.ID}>
-                                        {item.Name}
-                                    </option>
-                                ))}
+
+                                <option>
+                                    {Useronline}
+                                </option>
+
                             </Select>
                         </FormControl>
                     </Grid>

@@ -5,7 +5,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"golang.org/x/crypto/bcrypt"
-	
+
 )
 
 
@@ -80,15 +80,25 @@ func SetupDatabase() {
 	}
 	db.Model(&Role{}).Create(&ro1)
 
-	password, err := bcrypt.GenerateFromPassword([]byte("12345"), 14)
+	password1, err := bcrypt.GenerateFromPassword([]byte("12345"), 14)
 
 	us1 := User{
 		Name:			"สมชาย มาบันทึก",
 		UserName:		"qwert",
-		Password: 		string(password),
+		Password: 		string(password1),
 		Role:			ro1,
 	}
 	db.Model(&User{}).Create(&us1)
+
+	password2, err := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+
+	us2 := User{
+		Name:			"สมหญิง มาจด",
+		UserName:		"asdfg",
+		Password: 		string(password2),
+		Role:			ro1,
+	}
+	db.Model(&User{}).Create(&us2)
 
 
 
