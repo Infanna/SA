@@ -60,7 +60,7 @@ function WatchPatientList() {
 
     const getWatchPatient = async () => {
 
-      const apiUrl = "http://localhost:8080/wpats";
+      const apiUrl = "http://localhost:8080/patients";
     
       const requestOptions = {
     

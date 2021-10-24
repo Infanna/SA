@@ -56,9 +56,9 @@ func main() {
 
   r.POST("/user", controller.CreateUser)
 
+  
   // role
 
-  
   r.GET("/roles", controller.ListRole)
 
   r.POST("/role", controller.CreateRole)

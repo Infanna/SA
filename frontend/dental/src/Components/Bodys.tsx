@@ -64,8 +64,7 @@ export default function Bodys() {
 
     };
 
-
-
+    
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
@@ -92,7 +91,6 @@ export default function Bodys() {
 
 
         };
-
 
         fetch(apiUrl, requestOptions)
 
@@ -200,7 +198,6 @@ export default function Bodys() {
 
         };
 
-
         fetch(apiUrl, requestOptions)
 
             .then((response) => response.json())
@@ -220,8 +217,6 @@ export default function Bodys() {
             });
 
     }
-
-
 
     //ดึงข้อมูล ใส่ combobox
     useEffect(() => {
@@ -344,8 +339,6 @@ export default function Bodys() {
 
             };
 
-
-
             fetch(apiUrl, requestOptions)
 
                 .then((response) => response.json())
@@ -374,10 +367,7 @@ export default function Bodys() {
 
     }
 
-
     const classes = useStyles();
-
-
 
     return (
         <Container className={classes.container} maxWidth="md">
@@ -417,7 +407,7 @@ export default function Bodys() {
 
                         <Button style={{ float: "right" }}
                             component={RouterLink}
-                            to="/list"
+                            to="/"
                             variant="contained"
                             color="primary">
                             รายชื่อ
@@ -625,10 +615,7 @@ export default function Bodys() {
 
                             id="Detail"
 
-                            
-
                             variant="outlined"
-
 
                         />
 

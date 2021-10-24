@@ -26,7 +26,6 @@ func CreateUser(c *gin.Context) {
 
 	}
 
-
 	if err := entity.DB().Create(&user).Error; err != nil {
 
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -54,8 +53,6 @@ func ListUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": users})
 
-
-
 }
 
 // GET /users/id
@@ -66,14 +63,13 @@ func GetUser(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT name FROM users WHERE username = ?", id).Scan(&users).Error; err != nil {
+	if err := entity.DB().Raw("SELECT name FROM users WHERE id = ?", id).Scan(&users).Error; err != nil {
 
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
 			return
 
 	}
-
 
 	c.JSON(http.StatusOK, gin.H{"data": users})
 

@@ -36,6 +36,4 @@ export interface PatientInterface {
 
     User: UserInterface;
 
-
-
    }
