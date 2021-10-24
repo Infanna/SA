@@ -208,7 +208,7 @@ function WatchPatientList() {
 
                   </TableCell>
 
-                  <TableCell align="left" width="10%">
+                  <TableCell align="left" width="8%">
    
                     เบอร์โทร
 
@@ -236,7 +236,7 @@ function WatchPatientList() {
    
                   <TableRow key={pats.ID}>
    
-                    <TableCell align="right">{pats.ID}</TableCell>
+                    <TableCell align="center">{pats.ID}</TableCell>
    
                     <TableCell align="left" size="medium"> {pats.PatientFirstname} </TableCell>
    
@@ -258,12 +258,10 @@ function WatchPatientList() {
 
                     <TableCell align="left">{pats.User.Name}</TableCell>
 
-                   
-   
                   </TableRow>
    
                 ))}
-   
+
               </TableBody>
    
             </Table>
