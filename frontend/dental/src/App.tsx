@@ -35,36 +35,50 @@ import UserList from "./Components/UserList";
 import SignIn from "./Components/SignIns";
 
 
-/*
+
 export default function App() {
+  const [token, setToken] = React.useState<String>("");
+
+  useEffect(() => {
+    const getToken = localStorage.getItem("uid");
+    if (getToken) {
+      setToken(getToken);
+    }
+  }, []);
+
+  if (!token) {
+    return <SignIn />
+  }
 
   return (
 
-    
- 
+
+
     <Router>
- 
-      <div>
- 
-        <Navbar />
-        
-        <Switch>
+      {token && (
+        <>
+        <div>
 
-          <Route exact path="/" component={UserList} />
- 
-          <Route exact path="/create" component={Bodys} />
+          <Navbar />
 
-        </Switch>
- 
-      </div>
- 
+          <Switch>
+
+            <Route exact path="/" component={UserList} />
+
+            <Route exact path="/create" component={Bodys} />
+
+          </Switch>
+
+        </div>
+        </>
+      )}
     </Router>
- 
-  );
- 
- }
-*/
 
+  );
+
+}
+
+/*
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -257,3 +271,4 @@ export default function App() {
     </div>
   );
 }
+*/

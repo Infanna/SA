@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const signout = () => {
+  localStorage.clear();
+  window.location.href = "/";
+};
+
+
 export default function ButtonAppBar() {
   const classes = useStyles();
 
@@ -43,8 +49,7 @@ export default function ButtonAppBar() {
             เวชระเบียน
           </Typography>
           <Button style={{ float: "right" }}
-                            component={RouterLink}
-                            to="/"
+                            onClick={signout}
                             variant="outlined"
                             color="inherit">
                             Logout
