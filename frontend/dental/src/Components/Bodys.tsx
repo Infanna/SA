@@ -436,8 +436,9 @@ export default function Bodys(this: any) {
                     } else {
                         if (res.error == "UNIQUE constraint failed: patients.patient_idcard") {
                             setErrorMessage("เลขบัตรประจำตัวประชาชนซ้ำ")
-                        }
-                        else {
+                        }else if (res.error == "Only Nurses"){
+                            setErrorMessage("Only Nurses")
+                        }else {
                             setErrorMessage("บันทึกข้อมูลไม่สำเร็จ")
                         }
 

@@ -103,7 +103,7 @@ function SignIn() {
           Sign in
 
         </Typography>
-        *username:chanwit@gmail.com, password:12345*
+        *username:qwert, password:12345*
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -115,7 +115,7 @@ function SignIn() {
             name="UserName"
             autoComplete="username"
             autoFocus
-
+            value={signin.UserName || ""}
             onChange={handleInputChange}
           />
           <TextField
@@ -128,6 +128,7 @@ function SignIn() {
             type="password"
             id="Password"
             autoComplete="current-password"
+            value={signin.Password || ""}
             onChange={handleInputChange}
           />
           <Button

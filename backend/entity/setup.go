@@ -76,9 +76,14 @@ func SetupDatabase() {
 	db.Model(&Insurance{}).Create(&insurance3)
 
 	ro1 :=Role{
-		RoleName:		"พยาบาล",
+		RoleName:		"Nurse",
 	}
 	db.Model(&Role{}).Create(&ro1)
+
+	ro2 :=Role{
+		RoleName:		"Cashier",
+	}
+	db.Model(&Role{}).Create(&ro2)
 
 	password1, err := bcrypt.GenerateFromPassword([]byte("12345"), 14)
 
@@ -99,6 +104,14 @@ func SetupDatabase() {
 		Role:			ro1,
 	}
 	db.Model(&User{}).Create(&us2)
+
+	us3 := User{
+		Name:			"สมศรี มาคิดเงิน",
+		UserName:		"zxcvb",
+		Password: 		string(password2),
+		Role:			ro2,
+	}
+	db.Model(&User{}).Create(&us3)
 
 
 

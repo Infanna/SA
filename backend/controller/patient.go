@@ -20,8 +20,9 @@ func CreatePatient(c *gin.Context) {
 	var insurance entity.Insurance
 	var job entity.Job
 	var sex entity.Sex
-	var user entity.User
+	var nurse entity.User
 	var patient entity.Patient
+
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Patient
 	if err := c.ShouldBindJSON(&patient); err != nil {
@@ -47,24 +48,47 @@ func CreatePatient(c *gin.Context) {
 		return
 	}
 
-	// 12: ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", patient.UserID).First(&user); tx.RowsAffected == 0 {
+	// 12: ค้นหา nurse ด้วย id
+	if tx := entity.DB().Where("id = ?", patient.UserID).First(&nurse); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}
 
-	// 13: สร้าง Patient
+	entity.DB().Joins("Role").Find(&nurse)
+	// ตรวจสอบ Role ของ user
+	if nurse.Role.RoleName != "Nurse" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
+		return
+	}
+				
+/*	if err := entity.DB().Preload("Role").Raw("SELECT role_name FROM users WHERE id = ?", patient.UserID).First(&role).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
+		return
+	}*/
+
+/*	if tx := entity.DB().Where("id = ?", nurse.Role.ID).First(&role); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
+		return
+	}*/
+
+
+
+
+
+
+	// 14: สร้าง Patient
 	wp := entity.Patient{
 		PatientFirstname: 	patient.PatientFirstname,
 		PatientLastname: 	patient.PatientLastname,
 		PatientAge:			patient.PatientAge,
 		PatientIDcard:  	patient.PatientIDcard,
 		PatientTel:			patient.PatientTel,
+		PatientTime: 		patient.PatientTime, // 13: ดึงเวลาปัจจุบัน
 		Insurance:	 		insurance,         // โยงความสัมพันธ์กับ Entity insurance
 		Job:       	 		job,               // โยงความสัมพันธ์กับ Entity job
 		Sex:    	 		sex,               // โยงความสัมพันธ์กับ Entity sex
-		User:		 		user,				// โยงความสัมพันธ์กับ Entity user
-		PatientTime: 		patient.PatientTime,
+		User:		 		nurse,				// โยงความสัมพันธ์กับ Entity user
+		
 	}
 
 	// 15: บันทึก
