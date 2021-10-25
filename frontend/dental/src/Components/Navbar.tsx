@@ -6,22 +6,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
-import { Link, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { Fade, Menu, MenuItem } from '@material-ui/core';
 
-import HomeIcon from "@material-ui/icons/Home";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import YouTubeIcon from "@material-ui/icons/YouTube";
+import MenuIcon from '@material-ui/icons/MenuOpenOutlined';
+import LogoutIcon from "@material-ui/icons/ExitToAppOutlined";
+import HomeIcon from "@material-ui/icons/HomeOutlined";
+import ListIcon from "@material-ui/icons/ListAltOutlined";
+import CreateIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 
-import clsx from "clsx";
-import { Divider, Drawer, ListItem, ListItemIcon, ListItemText, useTheme } from '@material-ui/core';
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import List from "@material-ui/core/List";
-
-
-const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -37,59 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(5),
       height: theme.spacing(5),
     },
-    hide: {
-      display: "none",
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: "nowrap",
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerClose: {
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: "hidden",
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1,
-      },
-    },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-    },
-    a: {
-      textDecoration: "none",
-      color: "inherit",
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
   }),
 );
 
@@ -98,52 +39,72 @@ const signout = () => {
   window.location.href = "/";
 };
 
+const userList = () => {
+  window.location.href = "/list";
+};
+
+const create = () => {
+  window.location.href = "/create";
+};
+
+const home = () => {
+  window.location.href = "/";
+};
+
 
 
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  const menu = [
-    { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
-    { name: "สมาชิก", icon: <AccountCircleIcon />, path: "/users" },
-    { name: "การเข้าชมวีดีโอ", icon: <YouTubeIcon />, path: "/list" },
-  ];
 
   return (
     <div className={classes.root}>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
+      <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
+        <IconButton
+            edge="start" 
+            className={classes.menuButton} 
+            color="inherit" 
+            aria-label="menu"
+            id="fade-button"
+            aria-controls="fade-menu"
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
           >
             <MenuIcon />
           </IconButton>
+          <Menu
+            id="demo-positioned-menu"
+            MenuListProps={{
+              'aria-labelledby': 'fade-button',
+            }}
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={Fade}
+          >
+            <MenuItem onClick={home}><HomeIcon/>หน้าหลัก</MenuItem>
+            <MenuItem onClick={userList}><ListIcon/>รายชื่อผู้ป่วย</MenuItem>
+            <MenuItem onClick={create}><CreateIcon/>บันทึกผู้ป่วยใหม่</MenuItem>
+          </Menu>
+
           <Typography variant="h5" className={classes.title}>
             เวชระเบียน
           </Typography>
 
           <Button style={{ float: "right" }}
+            endIcon={<LogoutIcon />}
             onClick={signout}
             variant="outlined"
             color="inherit">
@@ -151,40 +112,11 @@ export default function ButtonAppBar() {
           </Button>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {menu.map((item, index) => (
-            <Link to={item.path} key={item.name} className={classes.a}>
-              <ListItem button>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-      </Drawer>
     </div>
   );
 }
+/*
+ <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          */

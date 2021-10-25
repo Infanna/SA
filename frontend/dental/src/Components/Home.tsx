@@ -24,23 +24,7 @@ function Home() {
     return (
         <div>
             <Container className={classes.container} maxWidth="md">
-                <div className = {classes.table}> 
-                    <Button style={{ float: "inline-start" }}
-                        component={RouterLink}
-                        to="/create"
-                        variant="contained"
-                        color="primary">
-                        สร้างประวัติผู้ป่วยใหม่
-                    </Button>
 
-                    <Button style={{ float: "right" }}
-                        component={RouterLink}
-                        to="/list"
-                        variant="contained"
-                        color="primary">
-                        รายชื่อผู้ป่วย
-                    </Button>
-                </div>
                 <h1 style={{ textAlign: "center" }}>ระบบบันทึกการเข้าชมวีดีโอ</h1>
                 <h4>Requirements</h4>
                 <p>

@@ -1,35 +1,20 @@
 import React, { useEffect } from "react";
-
 import { Link as RouterLink } from "react-router-dom";
-
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-
 import Typography from "@material-ui/core/Typography";
-
 import Button from "@material-ui/core/Button";
-
 import Container from "@material-ui/core/Container";
-
 import Paper from "@material-ui/core/Paper";
-
 import Box from "@material-ui/core/Box";
-
 import Table from "@material-ui/core/Table";
-
 import TableBody from "@material-ui/core/TableBody";
-
 import TableCell from "@material-ui/core/TableCell";
-
 import TableContainer from "@material-ui/core/TableContainer";
-
 import TableHead from "@material-ui/core/TableHead";
-
 import TableRow from "@material-ui/core/TableRow";
-
 import { PatientInterface } from "../models/IPat";
-
 import moment from 'moment';
-
+import CreateIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 
 
 
@@ -148,7 +133,7 @@ function WatchPatientList() {
    
               >
    
-                สร้างประวัติผู้ป่วยใหม่
+                <CreateIcon/>บันทึกผู้ป่วยใหม่ 
    
               </Button>
    

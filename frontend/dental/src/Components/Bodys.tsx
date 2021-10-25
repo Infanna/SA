@@ -16,6 +16,8 @@ import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import "react-time"
 import { useEffect } from "react";
 import { FormControl, Select } from "@material-ui/core";
+import ListIcon from "@material-ui/icons/ListAltOutlined";
+import SaveIcon from "@material-ui/icons/SaveAltOutlined";
 
 import { PatientInterface } from "../models/IPat";
 import { UserInterface } from "../models/IUser";
@@ -495,7 +497,7 @@ export default function Bodys(this: any) {
                             to="/list"
                             variant="contained"
                             color="primary">
-                            รายชื่อ
+                            <ListIcon/>รายชื่อผู้ป่วย
                         </Button>
 
 
@@ -730,7 +732,7 @@ export default function Bodys(this: any) {
                             variant="contained"
                             color="primary"
                             onClick={submit} >
-                            บันทึก
+                            <SaveIcon/>บันทึก
                         </Button>
                     </Grid>
                 </Grid>

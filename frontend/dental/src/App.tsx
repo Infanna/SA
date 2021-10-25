@@ -37,7 +37,7 @@ export default function App() {
 
           <Switch>
 
-          <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Home} />
 
             <Route exact path="/list" component={UserList} />
 
