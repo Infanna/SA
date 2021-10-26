@@ -27,6 +27,8 @@ func main() {
 		{
         // Insurance
 
+        protected.GET("/detail/:id", controller.GetDetail)
+
         protected.GET("/insrs", controller.ListInsurance)
 
         protected.POST("/insr", controller.CreateInsurance)

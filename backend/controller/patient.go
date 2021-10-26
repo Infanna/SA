@@ -9,8 +9,6 @@ import (
 
         "net/http"
 
-		
-
 )
 
 // POST /pat
@@ -60,7 +58,7 @@ func CreatePatient(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
 		return
 	}
-				
+
 /*	if err := entity.DB().Preload("Role").Raw("SELECT role_name FROM users WHERE id = ?", patient.UserID).First(&role).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
 		return

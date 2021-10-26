@@ -6,8 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
-import { Link as RouterLink } from "react-router-dom";
 import { Fade, Menu, MenuItem } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/MenuOpenOutlined';
@@ -39,6 +37,10 @@ const signout = () => {
   window.location.href = "/";
 };
 
+const home = () => {
+  window.location.href = "/";
+};
+
 const userList = () => {
   window.location.href = "/list";
 };
@@ -47,9 +49,6 @@ const create = () => {
   window.location.href = "/create";
 };
 
-const home = () => {
-  window.location.href = "/";
-};
 
 
 

@@ -54,6 +54,26 @@ func ListInsurance(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": insrs})
 
+}
+
+// GET id / Detail
+
+func GetDetail(c *gin.Context) {
+
+
+	var details entity.Insurance
+
+	id := c.Param("id")
+
+	if err := entity.DB().Raw("SELECT * FROM insurances WHERE id = ?", id).Scan(&details).Error; err != nil {
+
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+			return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": details})
 
 
 }

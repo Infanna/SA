@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Bodys(this: any) {
 
-    const [detail, setDetail] = React.useState<String>();
+    const [detail, setDetail] = React.useState<InsuranceInterface>();
     
 
 
@@ -57,7 +57,7 @@ export default function Bodys(this: any) {
         const InsuranceID = parseInt(String(InsuranceIDValue))
 
         console.log("DetailChange ID =", InsuranceID)
-        for (let i = 0; i < ins.length; i++) {
+        /*for (let i = 0; i < ins.length; i++) {
             if (ins[i].ID == InsuranceID) {
                 setDetail(ins[i].Detail);
                 break
@@ -66,7 +66,39 @@ export default function Bodys(this: any) {
                 setDetail("");
             }
 
-        }
+        }*/
+        const apiUrl = `http://localhost:8080/detail/${InsuranceID}`;
+
+        const requestOptions = {
+
+            method: "GET",
+
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
+
+
+        };
+
+        fetch(apiUrl, requestOptions)
+
+            .then((response) => response.json())
+
+            .then((res) => {
+                console.log("set_datail", res)
+                
+                if (res.data) {
+
+                    setDetail(res.data);
+
+                } else {
+
+                    console.log("else");
+
+                }
+
+            });
 
     };
 
@@ -74,7 +106,7 @@ export default function Bodys(this: any) {
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
-        lockuser();
+       /* lockuser();*/
         const name = event.target.name as keyof typeof pats
         console.log("Name", name)
         setPatient({
@@ -238,10 +270,11 @@ export default function Bodys(this: any) {
 
     }
     //real useronline
- /*   const [Useronline, setUseronline] = React.useState<UserInterface[]>([]);
+    const [Useronline, setUseronline] = React.useState<UserInterface>();
 
     function getUseronline() {
-        const apiUrl = "http://localhost:8080//users/:id";
+        const UserID = localStorage.getItem("uid")
+        const apiUrl = `http://localhost:8080/users/${UserID}`;
 
         const requestOptions = {
 
@@ -274,9 +307,9 @@ export default function Bodys(this: any) {
 
             });
 
-    }*/
+    }
 
-    const [Useronline, setUseronline] = React.useState<String>();
+   /* const [Useronline, setUseronline] = React.useState<String>();
     const UserID = Number(localStorage.getItem("uid"))
     function lockuser() {
         
@@ -294,20 +327,18 @@ export default function Bodys(this: any) {
 
         }
         
-    }
+    }*/
     
 
     //ดึงข้อมูล ใส่ combobox
     useEffect(() => {
-       /* lockuser();*/
+
         getSex();
         getJob();
         getIns();
         getUser();
-        console.log("test", "1")
+        getUseronline();
         
-       /* getUseronline();*/
-
     }, []);
 
 
@@ -378,6 +409,7 @@ export default function Bodys(this: any) {
             InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : NaN,
 
             UserID: Number(localStorage.getItem("uid")),
+
         };
         console.log("Error Chack Sex", data.SexID, "\nError Chack Job", data.JobID, "\nError Chack Insurance", data.InsuranceID)
 
@@ -692,7 +724,7 @@ export default function Bodys(this: any) {
                         <TextField
 
                             multiline
-                            defaultValue={detail}
+                            defaultValue={detail?.Detail}
                             rows={3}
 
                             disabled
@@ -713,13 +745,11 @@ export default function Bodys(this: any) {
                         <FormControl fullWidth variant="outlined" style={{ width: 300 }}>
                             <p>ผู้บันทึก</p>
                             <Select
-                               
-
+                                disabled
                                 native
                             >
-
                                 <option>
-                                    {Useronline}
+                                    {Useronline?.Name}
                                 </option>
 
                             </Select>
