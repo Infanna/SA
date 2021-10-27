@@ -103,21 +103,20 @@ function SignIn() {
           Sign in
 
         </Typography>
-        *username:qwert, password:12345, role:Nurse*
-        *username:asdfg, password:12345, role:Nurse*
-        *username:zxcvb, password:12345, role:Dental*
+        *username:few, password:1234, role:Nurse*
+
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="UserName"
-            label="UserName"
-            name="UserName"
+            id="Username"
+            label="Username"
+            name="Username"
             autoComplete="username"
             autoFocus
-            value={signin.UserName || ""}
+            value={signin.Username || ""}
             onChange={handleInputChange}
           />
           <TextField
@@ -128,9 +127,9 @@ function SignIn() {
             name="Password"
             label="Password"
             type="password"
-            id="Password"
+            id="Pass"
             autoComplete="current-password"
-            value={signin.Password || ""}
+            value={signin.Pass || ""}
             onChange={handleInputChange}
           />
           <Button

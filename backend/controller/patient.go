@@ -47,8 +47,8 @@ func CreatePatient(c *gin.Context) {
 	}
 
 	// 12: ค้นหา nurse ด้วย id
-	if tx := entity.DB().Where("id = ?", patient.UserID).First(&nurse); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+	if tx := entity.DB().Where("id = ?", patient.UserNurseID).First(&nurse); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": patient.UserNurseID})
 		return
 	}
 
@@ -61,16 +61,16 @@ func CreatePatient(c *gin.Context) {
 
 	// 14: สร้าง Patient
 	wp := entity.Patient{
-		Firstname: 	patient.Firstname,
-		Lastname: 	patient.Lastname,
-		Age:			patient.Age,
-		IDcard:  	patient.IDcard,
-		Tel:			patient.Tel,
-		Time: 		patient.Time, // 13: ดึงเวลาปัจจุบัน
+		Firstname: 			patient.Firstname,
+		Lastname: 			patient.Lastname,
+		Age:				patient.Age,
+		IDcard:  			patient.IDcard,
+		Tel:				patient.Tel,
+		PatientTime: 		patient.PatientTime, // 13: ดึงเวลาปัจจุบัน
 		Insurance:	 		insurance,         // โยงความสัมพันธ์กับ Entity insurance
 		Job:       	 		job,               // โยงความสัมพันธ์กับ Entity job
 		Sex:    	 		sex,               // โยงความสัมพันธ์กับ Entity sex
-		User:		 		nurse,				// โยงความสัมพันธ์กับ Entity user
+		UserNurse:		 	nurse,				// โยงความสัมพันธ์กับ Entity user
 		
 	}
 
@@ -90,7 +90,7 @@ func ListPatient(c *gin.Context) {
 
 
 	var pats []entity.Patient
-	if err := entity.DB().Preload("Sex").Preload("Job").Preload("User").Preload("Insurance").Raw("SELECT * FROM patients").Find(&pats).Error; err != nil {
+	if err := entity.DB().Preload("Sex").Preload("Job").Preload("UserNurse").Preload("Insurance").Raw("SELECT * FROM patients").Find(&pats).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

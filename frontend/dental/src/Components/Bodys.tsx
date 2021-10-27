@@ -364,7 +364,7 @@ export default function Bodys(this: any) {
 
             Tel: pats.Tel ?? "",
 
-            Time: new Date(),
+            PatientTime: new Date(),
 
             SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : NaN,
 
@@ -372,7 +372,7 @@ export default function Bodys(this: any) {
 
             InsuranceID: typeof pats.InsuranceID === "string" ? parseInt(pats.InsuranceID) : NaN,
 
-            UserID: Number(localStorage.getItem("uid")),
+            UserNurseID: Number(localStorage.getItem("uid")),
 
         };
         console.log("Error Chack Sex", data.SexID, "\nError Chack Job", data.JobID, "\nError Chack Insurance", data.InsuranceID)
@@ -432,7 +432,7 @@ export default function Bodys(this: any) {
                         setSuccess(true);
 
                     } else {
-                        if (res.error == "UNIQUE constraint failed: patients.patient_idcard") {
+                        if (res.error == "UNIQUE constraint failed: patients.idcard") {
                             setErrorMessage("เลขบัตรประจำตัวประชาชนซ้ำ")
                         } else if (res.error == "Only Nurses") {
                             setErrorMessage("Only Nurses")

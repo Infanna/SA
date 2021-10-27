@@ -18,7 +18,7 @@ export interface PatientInterface {
 
     Tel: string;
 
-    Time: Date;
+    PatientTime: Date;
 
     SexID: number;
 
@@ -26,7 +26,7 @@ export interface PatientInterface {
 
     InsuranceID: number;
 
-    UserID: number;
+    UserNurseID: number;
 
     Sex: SexInterface;
 
@@ -34,6 +34,6 @@ export interface PatientInterface {
 
     Insurance: InsuranceInterface;
 
-    User: UserInterface;
+    UserNurse: UserInterface;
 
    }

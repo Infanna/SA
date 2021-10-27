@@ -1,13 +1,13 @@
 package entity
 
 import (
+
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"golang.org/x/crypto/bcrypt"
-
 )
-
 
 var db *gorm.DB
 
@@ -23,128 +23,393 @@ func SetupDatabase() {
 
 	// Migrate the schema
 	database.AutoMigrate(
-		&User{}, &Job{}, &Insurance{}, &Patient{}, &Sex{},
+		&Role{}, &User{},
+		&Job{}, &Insurance{}, &Patient{}, &Sex{},
+		&Screening{},
+		&Treatment{}, &RemedyType{},
+		&Appoint{},
+		&MedicalProduct{}, &MedRecord{},
+		&Payment{},
 	)
-
 
 	db = database
 
-	sex1 := Sex{
-		Name:			"ชาย",
+	// ตำแหน่งงาน --------------------------------------------------------------
+	role1 := Role{
+		Name: "Dentist",
+	}
+	db.Model(&Role{}).Create(&role1)
 
+	role2 := Role{
+		Name: "Dental assistant",
+	}
+	db.Model(&Role{}).Create(&role2)
+
+	role3 := Role{
+		Name: "Nurse",
+	}
+	db.Model(&Role{}).Create(&role3)
+
+	role4 := Role{
+		Name: "Pharmacist",
+	}
+	db.Model(&Role{}).Create(&role4)
+
+	role5 := Role{
+		Name: "Financial officer",
+	}
+	db.Model(&Role{}).Create(&role5)
+	password1, err := bcrypt.GenerateFromPassword([]byte("1234"), 14)
+	password2, err := bcrypt.GenerateFromPassword([]byte("5678"), 14)
+	// รวมสมาชิกทุกตำแหน่ง >> entity User -------------------------------------------------------
+	dentist1 := User{
+		Name:     "กอเอ๋ย กอไก่",
+		Username: "nita",
+		Pass:     string(password2),
+		Role:     role1,
+	}
+	db.Model(&User{}).Create(&dentist1)
+
+	dentist2 := User{
+		Name:     "ขอไข่ ในเล้า",
+		Username: "name",
+		Pass:     string(password1),
+		Role:     role1,
+	}
+	db.Model(&User{}).Create(&dentist2)
+
+	dentistass1 := User{
+		Name:     "คอควาย เข้านา",
+		Username: "pitch",
+		Pass:     string(password1),
+		Role:     role2,
+	}
+	db.Model(&User{}).Create(&dentistass1)
+
+	dentistass2 := User{
+		Name:     "งองู ใจกล้า",
+		Username: "kantapit",
+		Pass:     string(password2),
+		Role:     role2,
+	}
+	db.Model(&User{}).Create(&dentistass2)
+
+	nurse1 := User{
+		Name:     "จอจาน ใช้ดี",
+		Username: "few",
+		Pass:     string(password1),
+		Role:     role3,
+	}
+	db.Model(&User{}).Create(&nurse1)
+
+	nurse2 := User{
+		Name:     "ฉอฉิ่ง ตีดัง",
+		Username: "pcrc",
+		Pass:     string(password2),
+		Role:     role3,
+	}
+	db.Model(&User{}).Create(&nurse2)
+
+	pharmacist1 := User{
+		Name:     "ชอช้าง วิ่งหนี",
+		Username: "fonthap",
+		Pass:     string(password1),
+		Role:     role4,
+	}
+	db.Model(&User{}).Create(&pharmacist1)
+
+	pharmacist2 := User{
+		Name:     "ซอโซ่ ล่ามดี",
+		Username: "q1234",
+		Pass:     string(password2),
+		Role:     role4,
+	}
+	db.Model(&User{}).Create(&pharmacist2)
+
+	financial1 := User{
+		Name:     "ญอหญิง โสภา",
+		Username: "tanodom",
+		Pass:     string(password1),
+		Role:     role5,
+	}
+	db.Model(&User{}).Create(&financial1)
+
+	financial2 := User{
+		Name:     "ฐอฐาน เข้ามารอง",
+		Username: "s1234",
+		Pass:     string(password2),
+		Role:     role5,
+	}
+	db.Model(&User{}).Create(&financial2)
+
+	// เพศ --------------------------------------------------------------------------------------
+	sex1 := Sex{
+		Name: "ชาย",
 	}
 	db.Model(&Sex{}).Create(&sex1)
 
 	sex2 := Sex{
-		Name:			"หญิง",
-
+		Name: "หญิง",
 	}
 	db.Model(&Sex{}).Create(&sex2)
 
+	// อาชีพ --------------------------------------------------------------------------------------------
 	job1 := Job{
-		Name:			"ราชการ",
+		Name: "ราชการ",
 	}
 	db.Model(&Job{}).Create(&job1)
 
 	job2 := Job{
-		Name:			"รัฐวิสหกิจ",
+		Name: "รัฐวิสหกิจ",
 	}
 	db.Model(&Job{}).Create(&job2)
 
 	job3 := Job{
-		Name:			"นักศึกษา",
+		Name: "นักศึกษา",
 	}
 	db.Model(&Job{}).Create(&job3)
 
-
+	// สิทธิการรักษา ------------------------------------------------------------------------------------------------
 	insurance1 := Insurance{
-		Name:		"สิทธิสวัสดิการข้าราชการ",
-		Detail:				"ข้าราชการและบคุคลในครอบครัวสามารถใช้สิทธิ์เบิกจ่ายตรง โดยใช้บัตรประชาชนในการเข้ารับบริการรักษาพยาบาลประเภทผู้ป่วยนอกทุกครั้ง ณ จุดชำระเงินโดยหากไม่ได้นำบัตรประชาชนมาแสดง หรือเอกสารที่กรมบัญชีกลางกำหนด ผู้รับบริการจะต้องสำรองจ่ายเงินค่ารักษาพยาบาลไปก่อน แล้วนำใบเสร็จรับเงินไปเบิกคืนกับส่วนราชการต้นสังกัด",
+		Name:   "สิทธิสวัสดิการข้าราชการ",
+		Detail: "ข้าราชการและบคุคลในครอบครัวสามารถใช้สิทธิ์เบิกจ่ายตรง โดยใช้บัตรประชาชนในการเข้ารับบริการรักษาพยาบาลประเภทผู้ป่วยนอกทุกครั้ง ณ จุดชำระเงินโดยหากไม่ได้นำบัตรประชาชนมาแสดง หรือเอกสารที่กรมบัญชีกลางกำหนด ผู้รับบริการจะต้องสำรองจ่ายเงินค่ารักษาพยาบาลไปก่อน แล้วนำใบเสร็จรับเงินไปเบิกคืนกับส่วนราชการต้นสังกัด",
 	}
 	db.Model(&Insurance{}).Create(&insurance1)
 
 	insurance2 := Insurance{
-		Name:		"สิทธิประกันสังคม",
-		Detail:				"สามารถใช้สิทธิ์ได้เฉพาะกรณีที่มีใบส่งตัวมาจากโรงพยาบาลต้นสังกัด และชำระเงินสดเท่านั้น ยกเว้น กรณีมีใบส่งตัวยืนยันการให้วางบิลโรงพยาบาลต้นสังกัดได้ ",
+		Name:   "สิทธิประกันสังคม",
+		Detail: "สามารถใช้สิทธิ์ได้เฉพาะกรณีที่มีใบส่งตัวมาจากโรงพยาบาลต้นสังกัด และชำระเงินสดเท่านั้น ยกเว้น กรณีมีใบส่งตัวยืนยันการให้วางบิลโรงพยาบาลต้นสังกัดได้ ",
 	}
 	db.Model(&Insurance{}).Create(&insurance2)
 
 	insurance3 := Insurance{
-		Name:		"สิทธิหลักประกันสุขภาพ 30 บาท",
-		Detail:				"คุ้มครองบุคคลที่เป็นคนไทยมีเลขประจำตัวประชาชน 13 หลักที่ไม่ได้รับสิทธิสวัสดิการข้าราชการ หรือ สิทธิประกันสังคม หรือสิทธิสวัสดิการรัฐวิสาหกิจ หรือสิทธิอื่น ๆ จากรัฐ",
+		Name:   "สิทธิหลักประกันสุขภาพ 30 บาท",
+		Detail: "คุ้มครองบุคคลที่เป็นคนไทยมีเลขประจำตัวประชาชน 13 หลักที่ไม่ได้รับสิทธิสวัสดิการข้าราชการ หรือ สิทธิประกันสังคม หรือสิทธิสวัสดิการรัฐวิสาหกิจ หรือสิทธิอื่น ๆ จากรัฐ",
 	}
 	db.Model(&Insurance{}).Create(&insurance3)
 
-	ro1 :=Role{
-		Name:		"Nurse",
+	// ประเภทการรักษา ------------------------------------------------------------------------------------------------
+	remedy1 := RemedyType{
+		Name: "อุดฟัน",
 	}
-	db.Model(&Role{}).Create(&ro1)
+	db.Model(&RemedyType{}).Create(&remedy1)
 
-	ro2 :=Role{
-		Name:		"Dental",
+	remedy2 := RemedyType{
+		Name: "ขูดหินปูน",
 	}
-	db.Model(&Role{}).Create(&ro2)
+	db.Model(&RemedyType{}).Create(&remedy2)
 
-	password1, err := bcrypt.GenerateFromPassword([]byte("12345"), 14)
-
-	us1 := User{
-		Name:			"สมชาย มาบันทึก",
-		UserName:		"qwert",
-		Password: 		string(password1),
-		Role:			ro1,
+	remedy3 := RemedyType{
+		Name: "เอ็กซ์เรย์",
 	}
-	db.Model(&User{}).Create(&us1)
+	db.Model(&RemedyType{}).Create(&remedy3)
 
-
-	us2 := User{
-		Name:			"สมหญิง มาจด",
-		UserName:		"asdfg",
-		Password: 		string(password1),
-		Role:			ro1,
-	}
-	db.Model(&User{}).Create(&us2)
-
-	us3 := User{
-		Name:			"สมศรี มาตรวจฟัน",
-		UserName:		"zxcvb",
-		Password: 		string(password1),
-		Role:			ro2,
-	}
-	db.Model(&User{}).Create(&us3)
-
-
-
+	// เวชระเบียน ------------------------------------------------------------------------------------------------------------
 	patient1 := Patient{
-		Firstname:	"พัชรชาติ",
-		Lastname:	"จิรศรีโสภา",
-		Age:			20,
-		IDcard:		"1329900000000",
-		Tel:			"0902571569",
-		Time: 		time.Now(),
-		Sex:				sex1,
-		Job:				job3,
-		Insurance:			insurance3,
-		User:				us1,
-		
+		Firstname:   "พัชรชาติ",
+		Lastname:    "จิรศรีโสภา",
+		Age:         20,
+		IDcard:      "1329900000000",
+		Tel:         "0902571569",
+		PatientTime: time.Now(),
+		Sex:         sex1,
+		Job:         job3,
+		Insurance:   insurance3,
+		UserNurse:   nurse1,
 	}
 	db.Model(&Patient{}).Create(&patient1)
 
 	patient2 := Patient{
-		Firstname:	"สมหญิง",
-		Lastname:	"ซิ่งรถไถ",
-		Age:			26,
-		IDcard:		"1329900000001",
-		Tel:			"0808571549",
-		Time: 		time.Now(),
-		Sex:				sex2,
-		Job:				job1,
-		Insurance:			insurance1,
-		User:				us1,
-		
+		Firstname:   "สมหญิง",
+		Lastname:    "ซิ่งรถไถ",
+		Age:         26,
+		IDcard:      "1329900000001",
+		Tel:         "0808571549",
+		PatientTime: time.Now(),
+		Sex:         sex2,
+		Job:         job1,
+		Insurance:   insurance1,
+		UserNurse:   nurse1,
 	}
 	db.Model(&Patient{}).Create(&patient2)
 
+	patient3 := Patient{
+		Firstname:   "สมชาย",
+		Lastname:    "มาอุดฟัน",
+		Age:         57,
+		IDcard:      "1329900000005",
+		Tel:         "0934547915",
+		PatientTime: time.Now(),
+		Sex:         sex2,
+		Job:         job1,
+		Insurance:   insurance1,
+		UserNurse:   nurse2,
+	}
+	db.Model(&Patient{}).Create(&patient3)
 
+	// ยาและเวชภัณฑ์ -----------------------------------------------------------------------------------------------
+	MedicalProduct1 := MedicalProduct{
+		Name: "Paracetamol(กระปุก)",
+	}
+	db.Model(&MedicalProduct{}).Create(&MedicalProduct1)
 
+	MedicalProduct2 := MedicalProduct{
+		Name: "Paracetamol(เม็ด)",
+	}
+	db.Model(&MedicalProduct{}).Create(&MedicalProduct2)
+
+	MedicalProduct3 := MedicalProduct{
+		Name: "ไหมขัดฟัน",
+	}
+	db.Model(&MedicalProduct{}).Create(&MedicalProduct3)
+
+	// คัดกรองผู้ป่วย ------------------------------------------------------------------------------------------------
+	screening1 := Screening{
+		Illnesses:      "ปวดฟัน",
+		Detail:         "ปวดฟันมานาน 1 ชั่วโมง",
+		Queue:          "A10",
+		Patient:        patient1,
+		UserDentistass: dentistass1,
+		MedicalProduct: MedicalProduct2,
+	}
+	db.Model(&Screening{}).Create(&screening1)
+
+	screening2 := Screening{
+		Illnesses:      "เหงือกอักเสบ",
+		Detail:         "มีอาการเหงือกบวม",
+		Queue:          "A11",
+		Patient:        patient2,
+		UserDentistass: dentistass1,
+		MedicalProduct: MedicalProduct1,
+	}
+	db.Model(&Screening{}).Create(&screening2)
+
+	screening3 := Screening{
+		Illnesses:      "ปวดฟัน",
+		Detail:         "ปวดฟันมานาน 2 ชั่วโมง",
+		Queue:          "A12",
+		Patient:        patient3,
+		UserDentistass: dentistass1,
+		MedicalProduct: MedicalProduct2,
+	}
+	db.Model(&Screening{}).Create(&screening3)
+
+	// ใบวินิฉัย --------------------------------------------------------------------------------------------------------------------
+	treatment1 := Treatment{
+		PrescriptionRaw:  "A12",
+		PrescriptionNote: "",
+		ToothNumber:      "21",
+		Date:             time.Now(),
+		Screening:        screening1,
+		UserDentist:      dentist1,
+		RemedyType:       remedy1,
+	}
+	db.Model(&Treatment{}).Create(&treatment1)
+
+	treatment2 := Treatment{
+		PrescriptionRaw:  "A12",
+		PrescriptionNote: "",
+		ToothNumber:      "21",
+		Date:             time.Now(),
+		Screening:        screening2,
+		UserDentist:      dentist1,
+		RemedyType:       remedy2,
+	}
+	db.Model(&Treatment{}).Create(&treatment2)
+
+	treatment3 := Treatment{
+		PrescriptionRaw:  "A12",
+		PrescriptionNote: "",
+		ToothNumber:      "21",
+		Date:             time.Now(),
+		Screening:        screening3,
+		UserDentist:      dentist2,
+		RemedyType:       remedy3,
+	}
+	db.Model(&Treatment{}).Create(&treatment3)
+
+	// การนัดหมาย ---------------------------------------------------------------------------------------------------------------
+	appoint1 := Appoint{
+		AppointTime: time.Now(),
+		Todo:        "งดน้ำ 3 ชั่วโมง",
+		UserDentist: dentist1,
+		Patient:     patient1,
+		RemedyType:  remedy1,
+	}
+	db.Model(&Appoint{}).Create(&appoint1)
+
+	appoint2 := Appoint{
+		AppointTime: time.Now(),
+		Todo:        "-",
+		UserDentist: dentist1,
+		Patient:     patient2,
+		RemedyType:  remedy2,
+	}
+	db.Model(&Appoint{}).Create(&appoint2)
+
+	appoint3 := Appoint{
+		AppointTime: time.Now(),
+		Todo:        "งดอาหาร 12 ชั่วโมง",
+		UserDentist: dentist1,
+		Patient:     patient1,
+		RemedyType:  remedy3,
+	}
+	db.Model(&Appoint{}).Create(&appoint3)
+
+	// รายการบันทึกการจ่ายยา ------------------------------------------------------------------------------------------------------------
+	MedRecord1 := MedRecord{
+		Amount:         2,
+		Treatment:      treatment1,
+		UserPharmacist: pharmacist1,
+		MedicalProduct: MedicalProduct2,
+	}
+	db.Model(&MedRecord{}).Create(&MedRecord1)
+
+	MedRecord2 := MedRecord{
+		Amount:         2,
+		Treatment:      treatment2,
+		UserPharmacist: pharmacist1,
+		MedicalProduct: MedicalProduct1,
+	}
+	db.Model(&MedRecord{}).Create(&MedRecord2)
+
+	MedRecord3 := MedRecord{
+		Amount:         3,
+		Treatment:      treatment3,
+		UserPharmacist: pharmacist2,
+		MedicalProduct: MedicalProduct3,
+	}
+	db.Model(&MedRecord{}).Create(&MedRecord3)
+
+	// การชำระเงิน ------------------------------------------------------------------------------------------------
+	Payment1 := Payment{
+		Price:         2000.00,
+		Paytime:       time.Now(),
+		Note:          "",
+		Patient:       patient1,
+		UserFinancial: financial1,
+		Treatment:     treatment1,
+	}
+	db.Model(&Payment{}).Create(&Payment1)
+
+	Payment2 := Payment{
+		Price:         200.00,
+		Paytime:       time.Now(),
+		Note:          "",
+		Patient:       patient2,
+		UserFinancial: financial1,
+		Treatment:     treatment2,
+	}
+	db.Model(&Payment{}).Create(&Payment2)
+
+	Payment3 := Payment{
+		Price:         500.00,
+		Paytime:       time.Now(),
+		Note:          "",
+		Patient:       patient3,
+		UserFinancial: financial1,
+		Treatment:     treatment3,
+	}
+	db.Model(&Payment{}).Create(&Payment3)
 
 }

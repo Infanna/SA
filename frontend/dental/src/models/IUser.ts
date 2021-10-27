@@ -6,9 +6,9 @@ export interface UserInterface {
    
     Name: string;
 
-    UserName: string;
+    Username: string;
 
-    Password: string;
+    Pass: string;
 
     RoleID : number;
 

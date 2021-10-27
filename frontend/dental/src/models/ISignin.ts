@@ -1,7 +1,7 @@
 export interface SigninInterface {
 
-    UserName: string,
+    Username: string,
 
-    Password: string,
+    Pass: string,
     
   }

@@ -10,8 +10,8 @@ import (
 
 // LoginPayload login body
 type LoginPayload struct {
-	UserName    string  `json:"UserName"`
-	Password 	string  `json:"Password"`
+	Username    string  `json:"UserName"`
+	Pass 	string  `json:"Pass"`
 }
 
 
@@ -31,13 +31,13 @@ func Login(c *gin.Context) {
 		return
 	}
 	// ค้นหา user ด้วย username ที่ผู้ใช้กรอกเข้ามา
-	if err := entity.DB().Raw("SELECT * FROM users WHERE user_name = ?", payload.UserName).Scan(&user).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM users WHERE username = ?", payload.Username).Scan(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	// ตรวจสอบรหัสผ่าน
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
+	err := bcrypt.CompareHashAndPassword([]byte(user.Pass), []byte(payload.Pass))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user credentials"})
 		return
@@ -56,7 +56,7 @@ func Login(c *gin.Context) {
 		ExpirationHours: 24,
 	}
 
-	signedToken, err := jwtWrapper.GenerateToken(user.UserName)
+	signedToken, err := jwtWrapper.GenerateToken(user.Username)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
 		return
