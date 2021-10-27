@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/nitaxxix/sa-64-final/entity"
+	"github.com/Infanna/sa-64-example/entity"
 
 	"github.com/gin-gonic/gin"
 
