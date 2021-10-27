@@ -8,17 +8,17 @@ export interface PatientInterface {
 
     ID: number,
    
-    PatientFirstname: string;
+    Firstname: string;
    
-    PatientLastname: string;
+    Lastname: string;
    
-    PatientAge: number;
+    Age: number;
 
-    PatientIDcard: String;
+    IDcard: String;
 
-    PatientTel: string;
+    Tel: string;
 
-    PatientTime: Date;
+    Time: Date;
 
     SexID: number;
 

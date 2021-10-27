@@ -30,58 +30,58 @@ func SetupDatabase() {
 	db = database
 
 	sex1 := Sex{
-		SexName:			"ชาย",
+		Name:			"ชาย",
 
 	}
 	db.Model(&Sex{}).Create(&sex1)
 
 	sex2 := Sex{
-		SexName:			"หญิง",
+		Name:			"หญิง",
 
 	}
 	db.Model(&Sex{}).Create(&sex2)
 
 	job1 := Job{
-		JobName:			"ราชการ",
+		Name:			"ราชการ",
 	}
 	db.Model(&Job{}).Create(&job1)
 
 	job2 := Job{
-		JobName:			"รัฐวิสหกิจ",
+		Name:			"รัฐวิสหกิจ",
 	}
 	db.Model(&Job{}).Create(&job2)
 
 	job3 := Job{
-		JobName:			"นักศึกษา",
+		Name:			"นักศึกษา",
 	}
 	db.Model(&Job{}).Create(&job3)
 
 
 	insurance1 := Insurance{
-		InsuranceName:		"สิทธิสวัสดิการข้าราชการ",
+		Name:		"สิทธิสวัสดิการข้าราชการ",
 		Detail:				"ข้าราชการและบคุคลในครอบครัวสามารถใช้สิทธิ์เบิกจ่ายตรง โดยใช้บัตรประชาชนในการเข้ารับบริการรักษาพยาบาลประเภทผู้ป่วยนอกทุกครั้ง ณ จุดชำระเงินโดยหากไม่ได้นำบัตรประชาชนมาแสดง หรือเอกสารที่กรมบัญชีกลางกำหนด ผู้รับบริการจะต้องสำรองจ่ายเงินค่ารักษาพยาบาลไปก่อน แล้วนำใบเสร็จรับเงินไปเบิกคืนกับส่วนราชการต้นสังกัด",
 	}
 	db.Model(&Insurance{}).Create(&insurance1)
 
 	insurance2 := Insurance{
-		InsuranceName:		"สิทธิประกันสังคม",
+		Name:		"สิทธิประกันสังคม",
 		Detail:				"สามารถใช้สิทธิ์ได้เฉพาะกรณีที่มีใบส่งตัวมาจากโรงพยาบาลต้นสังกัด และชำระเงินสดเท่านั้น ยกเว้น กรณีมีใบส่งตัวยืนยันการให้วางบิลโรงพยาบาลต้นสังกัดได้ ",
 	}
 	db.Model(&Insurance{}).Create(&insurance2)
 
 	insurance3 := Insurance{
-		InsuranceName:		"สิทธิหลักประกันสุขภาพ 30 บาท",
+		Name:		"สิทธิหลักประกันสุขภาพ 30 บาท",
 		Detail:				"คุ้มครองบุคคลที่เป็นคนไทยมีเลขประจำตัวประชาชน 13 หลักที่ไม่ได้รับสิทธิสวัสดิการข้าราชการ หรือ สิทธิประกันสังคม หรือสิทธิสวัสดิการรัฐวิสาหกิจ หรือสิทธิอื่น ๆ จากรัฐ",
 	}
 	db.Model(&Insurance{}).Create(&insurance3)
 
 	ro1 :=Role{
-		RoleName:		"Nurse",
+		Name:		"Nurse",
 	}
 	db.Model(&Role{}).Create(&ro1)
 
 	ro2 :=Role{
-		RoleName:		"Dental",
+		Name:		"Dental",
 	}
 	db.Model(&Role{}).Create(&ro2)
 
@@ -115,12 +115,12 @@ func SetupDatabase() {
 
 
 	patient1 := Patient{
-		PatientFirstname:	"พัชรชาติ",
-		PatientLastname:	"จิรศรีโสภา",
-		PatientAge:			20,
-		PatientIDcard:		"1329900000000",
-		PatientTel:			"0902571569",
-		PatientTime: 		time.Now(),
+		Firstname:	"พัชรชาติ",
+		Lastname:	"จิรศรีโสภา",
+		Age:			20,
+		IDcard:		"1329900000000",
+		Tel:			"0902571569",
+		Time: 		time.Now(),
 		Sex:				sex1,
 		Job:				job3,
 		Insurance:			insurance3,
@@ -130,12 +130,12 @@ func SetupDatabase() {
 	db.Model(&Patient{}).Create(&patient1)
 
 	patient2 := Patient{
-		PatientFirstname:	"สมหญิง",
-		PatientLastname:	"ซิ่งรถไถ",
-		PatientAge:			26,
-		PatientIDcard:		"1329900000001",
-		PatientTel:			"0808571549",
-		PatientTime: 		time.Now(),
+		Firstname:	"สมหญิง",
+		Lastname:	"ซิ่งรถไถ",
+		Age:			26,
+		IDcard:		"1329900000001",
+		Tel:			"0808571549",
+		Time: 		time.Now(),
 		Sex:				sex2,
 		Job:				job1,
 		Insurance:			insurance1,

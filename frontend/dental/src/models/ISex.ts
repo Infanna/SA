@@ -2,7 +2,7 @@ export interface SexInterface {
 
     ID: number,
    
-    SexName: string;
+    Name: string;
 
 
    }

@@ -2,7 +2,7 @@ export interface InsuranceInterface {
 
     ID: number,
    
-    InsuranceName : string;
+    Name : string;
 
     Detail : string;
 

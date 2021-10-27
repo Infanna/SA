@@ -222,23 +222,23 @@ function WatchPatientList() {
    
                     <TableCell align="center">{pats.ID}</TableCell>
    
-                    <TableCell align="left" size="medium"> {pats.PatientFirstname} </TableCell>
+                    <TableCell align="left" size="medium"> {pats.Firstname} </TableCell>
    
-                    <TableCell align="left">{pats.PatientLastname}</TableCell>
+                    <TableCell align="left">{pats.Lastname}</TableCell>
 
-                    <TableCell align="left">{pats.Sex.SexName}</TableCell>
+                    <TableCell align="left">{pats.Sex.Name}</TableCell>
 
-                    <TableCell align="left">{pats.PatientAge}</TableCell>
+                    <TableCell align="left">{pats.Age}</TableCell>
 
-                    <TableCell align="left">{pats.PatientIDcard}</TableCell>
+                    <TableCell align="left">{pats.IDcard}</TableCell>
 
-                    <TableCell align="left">{pats.Job.JobName}</TableCell>
+                    <TableCell align="left">{pats.Job.Name}</TableCell>
               
-                    <TableCell align="left">{pats.Insurance.InsuranceName}</TableCell>
+                    <TableCell align="left">{pats.Insurance.Name}</TableCell>
 
-                    <TableCell align="left">{pats.PatientTel}</TableCell>
+                    <TableCell align="left">{pats.Tel}</TableCell>
 
-                    <TableCell align="left">{moment(pats.PatientTime).format("YYYY-MM-DDTHH:mm")}</TableCell>
+                    <TableCell align="left">{moment(pats.Time).format("YYYY-MM-DDTHH:mm")}</TableCell>
 
                     <TableCell align="left">{pats.User.Name}</TableCell>
 

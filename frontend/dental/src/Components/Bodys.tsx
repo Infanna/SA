@@ -46,8 +46,6 @@ export default function Bodys(this: any) {
 
     const [detail, setDetail] = React.useState<InsuranceInterface>();
 
-
-
     const DetailChange = (event: React.ChangeEvent<{ id?: string; value: unknown }>
     ) => {
         const InsuranceIDValue = event.target.value as keyof typeof ins
@@ -356,17 +354,17 @@ export default function Bodys(this: any) {
 
         let data = {
 
-            PatientFirstname: pats.PatientFirstname ?? "",
+            Firstname: pats.Firstname ?? "",
 
-            PatientLastname: pats.PatientLastname ?? "",
+            Lastname: pats.Lastname ?? "",
 
-            PatientAge: typeof pats.PatientAge === "string" ? parseInt(pats.PatientAge) : NaN,
+            Age: typeof pats.Age === "string" ? parseInt(pats.Age) : NaN,
 
-            PatientIDcard: pats.PatientIDcard ?? "",
+            IDcard: pats.IDcard ?? "",
 
-            PatientTel: pats.PatientTel ?? "",
+            Tel: pats.Tel ?? "",
 
-            PatientTime: new Date(),
+            Time: new Date(),
 
             SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : NaN,
 
@@ -379,22 +377,22 @@ export default function Bodys(this: any) {
         };
         console.log("Error Chack Sex", data.SexID, "\nError Chack Job", data.JobID, "\nError Chack Insurance", data.InsuranceID)
 
-        if (data.PatientFirstname == "") {
+        if (data.Firstname == "") {
             setErrorMessage("กรุณากรอกชื่อ")
             setError(true)
-        } else if (data.PatientLastname == "") {
+        } else if (data.Lastname == "") {
             setErrorMessage("กรุณากรอกนามสกุล")
             setError(true)
-        } else if (!/\d/.test(data.PatientAge.toString()) || data.PatientAge <= 0) {
+        } else if (!/\d/.test(data.Age.toString()) || data.Age <= 0) {
             setErrorMessage("อายุไม่ถูกต้อง")
             setError(true)
         } else if (isNaN(data.SexID)) {
             setErrorMessage("กรุณาเลือกเพศ")
             setError(true)
-        } else if (!/^\d{13}$/.test(data.PatientIDcard.toString())) {
+        } else if (!/^\d{13}$/.test(data.IDcard.toString())) {
             setErrorMessage("เลขบัตรประชาชนไม่ถูกต้อง")
             setError(true)
-        } else if (!/^\d{10}$/.test(data.PatientTel.toString())) {
+        } else if (!/^\d{10}$/.test(data.Tel.toString())) {
             setErrorMessage("เบอร์โทรไม่ถูกต้อง")
             setError(true)
         } else if (isNaN(data.JobID)) {
@@ -510,7 +508,7 @@ export default function Bodys(this: any) {
                         <p>ชื่อ</p>
                         <TextField style={{ width: 220 }}
 
-                            id="PatientFirstname"
+                            id="Firstname"
 
                             label="กรอกชื่อ"
 
@@ -528,7 +526,7 @@ export default function Bodys(this: any) {
                         <p>นามสกุล</p>
                         <TextField style={{ width: 220 }}
 
-                            id="PatientLastname"
+                            id="Lastname"
 
                             label="กรอกนามสกุล"
 
@@ -553,7 +551,7 @@ export default function Bodys(this: any) {
 
                             style={{ width: 140 }}
 
-                            id="PatientAge"
+                            id="Age"
 
                             label="กรอกอายุ"
 
@@ -584,7 +582,7 @@ export default function Bodys(this: any) {
                                 </option>
                                 {sexs.map((item: SexInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.SexName}
+                                        {item.Name}
                                     </option>
                                 ))}
                             </Select>
@@ -600,7 +598,7 @@ export default function Bodys(this: any) {
 
                             style={{ width: 295 }}
 
-                            id="PatientIDcard"
+                            id="IDcard"
 
                             label="กรอกรหัสบัตรประจำตัวประชาชน"
 
@@ -619,7 +617,7 @@ export default function Bodys(this: any) {
 
                             style={{ width: 220 }}
 
-                            id="PatientTel"
+                            id="Tel"
 
                             label="กรอกเบอร์โทร"
 
@@ -648,7 +646,7 @@ export default function Bodys(this: any) {
                                 </option>
                                 {jobs.map((item: JobInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.JobName}
+                                        {item.Name}
                                     </option>
                                 ))}
                             </Select>
@@ -664,8 +662,8 @@ export default function Bodys(this: any) {
                                 native
 
                                 value={pats.InsuranceID}
-                                onChange={e => { handleChange(e); DetailChange(e) }}
 
+                                onChange={e => { handleChange(e); DetailChange(e) }}
 
                                 inputProps={{
                                     name: "InsuranceID",
@@ -677,7 +675,7 @@ export default function Bodys(this: any) {
                                 </option>
                                 {ins.map((item: InsuranceInterface) => (
                                     <option value={item.ID} key={item.ID}>
-                                        {item.InsuranceName}
+                                        {item.Name}
                                     </option>
                                 ))}
                             </Select>

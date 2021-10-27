@@ -7,7 +7,7 @@ import (
 
 type Role struct {
 	gorm.Model
-	RoleName	string
+	Name	string
 
 	User	[]User	`gorm:"foreignKey:RoleID"`
 }
@@ -27,14 +27,14 @@ type User struct {
 
 type Job struct {
 	gorm.Model
-	JobName string
+	Name string
 
 	Patients	[]Patient	`gorm:"foreignKey:JobID"`
 }
 
 type Insurance struct {
 	gorm.Model
-	InsuranceName string
+	Name string
 	Detail string
 
 	Patients	[]Patient 	`gorm:"foreignKey:InsuranceID"`
@@ -42,19 +42,19 @@ type Insurance struct {
 
 type Sex struct {
 	gorm.Model
-	SexName string
+	Name string
 
 	Patients	[]Patient 	`gorm:"foreignKey:SexID"`
 }
 
 type Patient struct {
 	gorm.Model		
-	PatientFirstname	string
-	PatientLastname		string
-	PatientAge			int
-	PatientIDcard		string 	 `gorm:"uniqueIndex"`
-	PatientTel			string
-	PatientTime 		time.Time
+	Firstname	string
+	Lastname		string
+	Age			int
+	IDcard		string 	 `gorm:"uniqueIndex"`
+	Tel			string
+	Time 		time.Time
 
 	UserID				*uint
 	User				User

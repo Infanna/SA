@@ -54,19 +54,19 @@ func CreatePatient(c *gin.Context) {
 
 	entity.DB().Joins("Role").Find(&nurse)
 	// ตรวจสอบ Role ของ user
-	if nurse.Role.RoleName != "Nurse" {
+	if nurse.Role.Name != "Nurse" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
 		return
 	}
 
 	// 14: สร้าง Patient
 	wp := entity.Patient{
-		PatientFirstname: 	patient.PatientFirstname,
-		PatientLastname: 	patient.PatientLastname,
-		PatientAge:			patient.PatientAge,
-		PatientIDcard:  	patient.PatientIDcard,
-		PatientTel:			patient.PatientTel,
-		PatientTime: 		patient.PatientTime, // 13: ดึงเวลาปัจจุบัน
+		Firstname: 	patient.Firstname,
+		Lastname: 	patient.Lastname,
+		Age:			patient.Age,
+		IDcard:  	patient.IDcard,
+		Tel:			patient.Tel,
+		Time: 		patient.Time, // 13: ดึงเวลาปัจจุบัน
 		Insurance:	 		insurance,         // โยงความสัมพันธ์กับ Entity insurance
 		Job:       	 		job,               // โยงความสัมพันธ์กับ Entity job
 		Sex:    	 		sex,               // โยงความสัมพันธ์กับ Entity sex
