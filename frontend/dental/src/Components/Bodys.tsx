@@ -24,7 +24,6 @@ import { UserInterface } from "../models/IUser";
 import { SexInterface } from "../models/ISex";
 import { JobInterface } from "../models/IJob";
 import { InsuranceInterface } from "../models/IIns";
-import { SigninInterface } from "../models/ISignin";
 
 
 
@@ -33,8 +32,6 @@ function Alert(props: AlertProps): JSX.Element {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 
 }
-
-
 
 const useStyles = makeStyles((theme: Theme) =>
 
@@ -48,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Bodys(this: any) {
 
     const [detail, setDetail] = React.useState<InsuranceInterface>();
-    
+
 
 
     const DetailChange = (event: React.ChangeEvent<{ id?: string; value: unknown }>
@@ -57,16 +54,7 @@ export default function Bodys(this: any) {
         const InsuranceID = parseInt(String(InsuranceIDValue))
 
         console.log("DetailChange ID =", InsuranceID)
-        /*for (let i = 0; i < ins.length; i++) {
-            if (ins[i].ID == InsuranceID) {
-                setDetail(ins[i].Detail);
-                break
-            }
-            else {
-                setDetail("");
-            }
 
-        }*/
         const apiUrl = `http://localhost:8080/detail/${InsuranceID}`;
 
         const requestOptions = {
@@ -87,7 +75,7 @@ export default function Bodys(this: any) {
 
             .then((res) => {
                 console.log("set_datail", res)
-                
+
                 if (res.data) {
 
                     setDetail(res.data);
@@ -102,11 +90,10 @@ export default function Bodys(this: any) {
 
     };
 
-
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
-       /* lockuser();*/
+        /* lockuser();*/
         const name = event.target.name as keyof typeof pats
         console.log("Name", name)
         setPatient({
@@ -236,9 +223,9 @@ export default function Bodys(this: any) {
 
     function getUser() {
         const apiUrl = "http://localhost:8080/users";
-        
+
         const requestOptions = {
-            
+
             method: "GET",
 
             headers: {
@@ -255,7 +242,7 @@ export default function Bodys(this: any) {
 
             .then((res) => {
                 console.log("Combobox_User", res)
-                
+
                 if (res.data) {
 
                     setUser(res.data);
@@ -294,7 +281,7 @@ export default function Bodys(this: any) {
 
             .then((res) => {
                 console.log("Combobox_Useronline", res)
-                
+
                 if (res.data) {
 
                     setUseronline(res.data);
@@ -309,27 +296,6 @@ export default function Bodys(this: any) {
 
     }
 
-   /* const [Useronline, setUseronline] = React.useState<String>();
-    const UserID = Number(localStorage.getItem("uid"))
-    function lockuser() {
-        
-        console.log("UserID =", UserID)
-        for (let i = 0; i < users.length; i++) {
-            console.log("Useronline =", users[i].Name)
-            if (users[i].ID == UserID) {
-                setUseronline(users[i].Name);
-                console.log("Useronline set =", users[i].Name)
-                break
-            }
-            else {
-                setUseronline("fff");
-            }
-
-        }
-        
-    }*/
-    
-
     //ดึงข้อมูล ใส่ combobox
     useEffect(() => {
 
@@ -338,7 +304,7 @@ export default function Bodys(this: any) {
         getIns();
         getUser();
         getUseronline();
-        
+
     }, []);
 
 
@@ -470,9 +436,9 @@ export default function Bodys(this: any) {
                     } else {
                         if (res.error == "UNIQUE constraint failed: patients.patient_idcard") {
                             setErrorMessage("เลขบัตรประจำตัวประชาชนซ้ำ")
-                        }else if (res.error == "Only Nurses"){
+                        } else if (res.error == "Only Nurses") {
                             setErrorMessage("Only Nurses")
-                        }else {
+                        } else {
                             setErrorMessage("บันทึกข้อมูลไม่สำเร็จ")
                         }
 
@@ -529,7 +495,7 @@ export default function Bodys(this: any) {
                             to="/list"
                             variant="contained"
                             color="primary">
-                            <ListIcon/>รายชื่อผู้ป่วย
+                            <ListIcon />รายชื่อผู้ป่วย
                         </Button>
 
 
@@ -756,13 +722,12 @@ export default function Bodys(this: any) {
                         </FormControl>
                     </Grid>
 
-
                     <Grid item xs={12}>
                         <Button style={{ float: "right" }}
                             variant="contained"
                             color="primary"
                             onClick={submit} >
-                            <SaveIcon/>บันทึก
+                            <SaveIcon />บันทึก
                         </Button>
                     </Grid>
                 </Grid>

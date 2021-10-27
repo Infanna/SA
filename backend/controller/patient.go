@@ -59,21 +59,6 @@ func CreatePatient(c *gin.Context) {
 		return
 	}
 
-/*	if err := entity.DB().Preload("Role").Raw("SELECT role_name FROM users WHERE id = ?", patient.UserID).First(&role).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
-		return
-	}*/
-
-/*	if tx := entity.DB().Where("id = ?", nurse.Role.ID).First(&role); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
-		return
-	}*/
-
-
-
-
-
-
 	// 14: สร้าง Patient
 	wp := entity.Patient{
 		PatientFirstname: 	patient.PatientFirstname,

@@ -81,7 +81,7 @@ func SetupDatabase() {
 	db.Model(&Role{}).Create(&ro1)
 
 	ro2 :=Role{
-		RoleName:		"Cashier",
+		RoleName:		"Dental",
 	}
 	db.Model(&Role{}).Create(&ro2)
 
@@ -95,20 +95,19 @@ func SetupDatabase() {
 	}
 	db.Model(&User{}).Create(&us1)
 
-	password2, err := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
 	us2 := User{
 		Name:			"สมหญิง มาจด",
 		UserName:		"asdfg",
-		Password: 		string(password2),
+		Password: 		string(password1),
 		Role:			ro1,
 	}
 	db.Model(&User{}).Create(&us2)
 
 	us3 := User{
-		Name:			"สมศรี มาคิดเงิน",
+		Name:			"สมศรี มาตรวจฟัน",
 		UserName:		"zxcvb",
-		Password: 		string(password2),
+		Password: 		string(password1),
 		Role:			ro2,
 	}
 	db.Model(&User{}).Create(&us3)

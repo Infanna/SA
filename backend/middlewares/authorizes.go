@@ -3,7 +3,6 @@ package middlewares
 import (
 	"net/http"
 	"strings"
-
 	"github.com/Infanna/sa-64-example/service"
 	"github.com/gin-gonic/gin"
 )

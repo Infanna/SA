@@ -21,6 +21,7 @@ export default function App() {
       setToken(getToken);
     }
   }, []);
+  console.log("Token",token)
 
   if (!token) {
     return <SignIn />

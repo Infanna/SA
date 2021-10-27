@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { UserInterface } from "../models/IUser";
-import { SigninInterface } from "../models/ISignin";
+
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -103,7 +103,9 @@ function SignIn() {
           Sign in
 
         </Typography>
-        *username:qwert, password:12345*
+        *username:qwert, password:12345, role:Nurse*
+        *username:asdfg, password:12345, role:Nurse*
+        *username:zxcvb, password:12345, role:Dental*
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"

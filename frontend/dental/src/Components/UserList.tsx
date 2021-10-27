@@ -34,11 +34,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-
-
-
-
-
 function WatchPatientList() {
     const classes = useStyles();
 
