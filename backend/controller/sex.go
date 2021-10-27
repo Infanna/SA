@@ -55,6 +55,5 @@ func ListSex(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": sexs})
 
 
-
 }
 
