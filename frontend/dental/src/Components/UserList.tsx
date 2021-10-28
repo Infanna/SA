@@ -238,7 +238,7 @@ function WatchPatientList() {
 
                     <TableCell align="left">{pats.Tel}</TableCell>
 
-                    <TableCell align="left">{moment(pats.PatientTime).format("YYYY-MM-DDTHH:mm")}</TableCell>
+                    <TableCell align="left">{moment(pats.Time).format("YYYY-MM-DD HH:mm")}</TableCell>
 
                     <TableCell align="left">{pats.UserNurse.Name}</TableCell>
 

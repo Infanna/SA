@@ -10,7 +10,7 @@ import (
 
 // LoginPayload login body
 type LoginPayload struct {
-	Username    string  `json:"UserName"`
+	Username    string  `json:"Username"`
 	Pass 	string  `json:"Pass"`
 }
 

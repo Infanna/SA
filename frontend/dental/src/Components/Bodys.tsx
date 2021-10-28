@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Bodys(this: any) {
 
+    //detail 
+
     const [detail, setDetail] = React.useState<InsuranceInterface>();
 
     const DetailChange = (event: React.ChangeEvent<{ id?: string; value: unknown }>
@@ -63,7 +65,6 @@ export default function Bodys(this: any) {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json",
             },
-
 
         };
 
@@ -88,10 +89,11 @@ export default function Bodys(this: any) {
 
     };
 
+
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
-        /* lockuser();*/
+
         const name = event.target.name as keyof typeof pats
         console.log("Name", name)
         setPatient({
