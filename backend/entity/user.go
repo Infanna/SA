@@ -59,7 +59,7 @@ type Patient struct {
 	Age         int
 	IDcard      string `gorm:"uniqueIndex"`
 	Tel         string
-	PatientTime time.Time
+	Time 		time.Time
 
 	UserNurseID *uint
 	UserNurse   User

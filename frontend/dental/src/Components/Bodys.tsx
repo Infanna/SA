@@ -366,7 +366,7 @@ export default function Bodys(this: any) {
 
             Tel: pats.Tel ?? "",
 
-            PatientTime: new Date(),
+            Time: new Date(),
 
             SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : NaN,
 

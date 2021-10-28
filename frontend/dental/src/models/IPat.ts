@@ -18,7 +18,7 @@ export interface PatientInterface {
 
     Tel: string;
 
-    PatientTime: Date;
+    Time: Date;
 
     SexID: number;
 
