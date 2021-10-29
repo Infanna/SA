@@ -22,9 +22,15 @@ func CreatePatient(c *gin.Context) {
 	var patient entity.Patient
 
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Patient
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 7 จะถูก bind เข้าตัวแปร Patient
 	if err := c.ShouldBindJSON(&patient); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 8: ค้นหา nurse ด้วย id
+	if tx := entity.DB().Where("id = ?", patient.UserNurseID).First(&nurse); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}
 
@@ -46,12 +52,6 @@ func CreatePatient(c *gin.Context) {
 		return
 	}
 
-	// 12: ค้นหา nurse ด้วย id
-	if tx := entity.DB().Where("id = ?", patient.UserNurseID).First(&nurse); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
-		return
-	}
-
 	entity.DB().Joins("Role").Find(&nurse)
 	// 13: ตรวจสอบ Role ของ user
 	if nurse.Role.Name != "Nurse" {
@@ -66,11 +66,11 @@ func CreatePatient(c *gin.Context) {
 		Age:				patient.Age,
 		IDcard:  			patient.IDcard,
 		Tel:				patient.Tel,
-		Time: 				patient.Time, // 14: ดึงเวลาปัจจุบัน
+		Time: 				patient.Time, 	   // 14: ดึงเวลาปัจจุบัน
 		Insurance:	 		insurance,         // โยงความสัมพันธ์กับ Entity insurance
 		Job:       	 		job,               // โยงความสัมพันธ์กับ Entity job
 		Sex:    	 		sex,               // โยงความสัมพันธ์กับ Entity sex
-		UserNurse:		 	nurse,				// โยงความสัมพันธ์กับ Entity user
+		UserNurse:		 	nurse,			   // โยงความสัมพันธ์กับ Entity user
 
 	}
 

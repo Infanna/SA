@@ -11,7 +11,7 @@ import (
 // LoginPayload login body
 type LoginPayload struct {
 	Username    string  `json:"Username"`
-	Pass 	string  `json:"Pass"`
+	Password 	string  `json:"Password"`
 }
 
 
@@ -37,7 +37,7 @@ func Login(c *gin.Context) {
 	}
 
 	// ตรวจสอบรหัสผ่าน
-	err := bcrypt.CompareHashAndPassword([]byte(user.Pass), []byte(payload.Pass))
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user credentials"})
 		return

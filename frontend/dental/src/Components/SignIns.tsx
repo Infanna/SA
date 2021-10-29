@@ -127,9 +127,9 @@ function SignIn() {
             name="Password"
             label="Password"
             type="password"
-            id="Pass"
+            id="Password"
             autoComplete="current-password"
-            value={signin.Pass || ""}
+            value={signin.Password || ""}
             onChange={handleInputChange}
           />
           <Button

@@ -233,7 +233,6 @@ export default function Bodys(this: any) {
                 "Content-Type": "application/json",
             },
 
-
         };
 
         fetch(apiUrl, requestOptions)

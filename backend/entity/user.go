@@ -16,7 +16,7 @@ type User struct {
 	gorm.Model
 	Name     string
 	Username string `gorm:"uniqueIndex"`
-	Pass     string
+	Password    string
 
 	Patients   []Patient   `gorm:"foreignKey:UserNurseID"`
 	Screenings []Screening `gorm:"foreignKey:UserDentistassID"`
