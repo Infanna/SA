@@ -342,10 +342,10 @@ export default function Bodys(this: any) {
         };
         console.log("Error Chack Sex", data.SexID, "\nError Chack Job", data.JobID, "\nError Chack Insurance", data.InsuranceID)
 
-        if (data.Firstname == "") {
+        if (!/\S/.test(data.Firstname)) {
             setErrorMessage("กรุณากรอกชื่อ")
             setError(true)
-        } else if (data.Lastname == "") {
+        } else if (!/\S/.test(data.Lastname)) {
             setErrorMessage("กรุณากรอกนามสกุล")
             setError(true)
         } else if (!/\d/.test(data.Age.toString()) || data.Age <= 0) {

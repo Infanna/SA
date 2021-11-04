@@ -58,8 +58,6 @@ func main() {
 
         protected.GET("/users/:id", controller.GetUser)
 
-        protected.POST("/user", controller.CreateUser)
-
   
         // role
 
