@@ -2,6 +2,7 @@ package controller
 
 
 import (
+		"time"
 
         "github.com/Infanna/sa-64-example/entity"
 
@@ -20,44 +21,52 @@ func CreatePatient(c *gin.Context) {
 	var sex entity.Sex
 	var nurse entity.User
 	var patient entity.Patient
+	var role entity.Role
 
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 7 จะถูก bind เข้าตัวแปร Patient
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Patient
 	if err := c.ShouldBindJSON(&patient); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 8: ค้นหา nurse ด้วย id
+	// 9: ค้นหา nurse ด้วย id
 	if tx := entity.DB().Where("id = ?", patient.UserNurseID).First(&nurse); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
 		return
 	}
 
-	// 9: ค้นหา insurance ด้วย id
+	// 10: ค้นหา Role ด้วย id
+	if tx := entity.DB().Where("id = ?", nurse.RoleID).First(&role); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Role not found"})
+		return
+	}
+
+	// ตรวจสอบ Role ของ user
+	entity.DB().Joins("Role").Find(&nurse)
+	if nurse.Role.Name != "Nurse" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
+		return
+	}
+
+	// 11: ค้นหา insurance ด้วย id
 	if tx := entity.DB().Where("id = ?", patient.InsuranceID).First(&insurance); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Insurance not found"})
 		return
 	}
 
-	// 10: ค้นหา sex ด้วย id
+	// 12: ค้นหา sex ด้วย id
 	if tx := entity.DB().Where("id = ?", patient.SexID).First(&sex); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Sex not found"})
 		return
 	}
 
-	// 11: ค้นหา job ด้วย id
+	// 13: ค้นหา job ด้วย id
 	if tx := entity.DB().Where("id = ?", patient.JobID).First(&job); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Job not found"})
 		return
 	}
 
-	entity.DB().Joins("Role").Find(&nurse)
-	// 13: ตรวจสอบ Role ของ user
-	if nurse.Role.Name != "Nurse" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})
-		return
-	}
 
 	// 15: สร้าง Patient
 	wp := entity.Patient{
@@ -66,7 +75,7 @@ func CreatePatient(c *gin.Context) {
 		Age:				patient.Age,
 		IDcard:  			patient.IDcard,
 		Tel:				patient.Tel,
-		Time: 				patient.Time, 	   // 14: ดึงเวลาปัจจุบัน
+		Time: 				time.Now(),	   		// 14: ดึงเวลาปัจจุบัน
 		Insurance:	 		insurance,         // โยงความสัมพันธ์กับ Entity insurance
 		Job:       	 		job,               // โยงความสัมพันธ์กับ Entity job
 		Sex:    	 		sex,               // โยงความสัมพันธ์กับ Entity sex
