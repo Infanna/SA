@@ -7,10 +7,18 @@ import (
 
 	"net/http"
 )
+
 // get /MedRec
 func ListMedRecord(c *gin.Context) {
 	var medRecord []entity.MedRecord
-	if err := entity.DB().Preload("User").Preload("User.Role").Preload("MedicalProduct").Preload("TreatmentRecord").Preload("TreatmentRecord.ScreeningRecord").Preload("TreatmentRecord.ScreeningRecord.Patient").Raw("SELECT * FROM med_records").Find(&medRecord).Error; err != nil {
+	if err := entity.DB().Preload("UserPharmacist").
+		Preload("UserPharmacist.Role").
+		Preload("MedicalProduct").
+		Preload("Treatment").
+		Preload("Treatment.Screening").
+		Preload("Treatment.Screening.Patient").
+		Raw("SELECT * FROM med_records").
+		Find(&medRecord).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -38,19 +46,19 @@ func CreateMedRecord(c *gin.Context) {
 
 	// ค้นหา User ด้วย id
 	if tx := entity.DB().Where("id = ?", medRecord.UserPharmacistID).First(&pharmacist); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Dentist not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Pharmacist not found"})
 		return
 	}
 	entity.DB().Joins("Role").Find(&pharmacist)
 
-	if pharmacist.Role.Name != "Dentist" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "only for dentsit"})
-		return
-	}
-
 	// ค้นหา MedicalProduct ด้วย id
 	if err := entity.DB().Where("id = ?", medRecord.MedicalProductID).First(&medicalProduct).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "MedicalProduct not found"})
+		return
+	}
+	//ต้องเป็น Pharmacist ถึงบันทึกได้
+	if pharmacist.Role.Name != "Pharmacist" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Pharmacist can save MedRecord !!"})
 		return
 	}
 

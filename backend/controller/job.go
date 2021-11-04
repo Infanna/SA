@@ -13,7 +13,7 @@ import (
 
 )
 
-// POST /Job
+// POST /job
 
 func CreateJob(c *gin.Context) {
 
@@ -21,18 +21,17 @@ func CreateJob(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&job); err != nil {
 
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
-			return
+		return
 
 	}
 
-
 	if err := entity.DB().Create(&job).Error; err != nil {
 
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
-			return
+		return
 
 	}
 
@@ -40,11 +39,9 @@ func CreateJob(c *gin.Context) {
 
 }
 
-// GET /Jobs
-
+// GET /jobs
 
 func ListJob(c *gin.Context) {
-
 
 	var jobs []entity.Job
 	if err := entity.DB().Raw("SELECT * FROM jobs").Find(&jobs).Error; err != nil {
@@ -53,7 +50,6 @@ func ListJob(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": jobs})
-
 
 }
 

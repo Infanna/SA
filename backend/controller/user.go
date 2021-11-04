@@ -9,8 +9,6 @@ import (
 
         "net/http"
 
-		
-
 )
 
 // POST /users
@@ -18,19 +16,20 @@ import (
 func CreateUser(c *gin.Context) {
 
 	var user entity.User
+
 	if err := c.ShouldBindJSON(&user); err != nil {
 
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
-			return
+		return
 
 	}
 
 	if err := entity.DB().Create(&user).Error; err != nil {
 
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
-			return
+		return
 
 	}
 
@@ -38,35 +37,38 @@ func CreateUser(c *gin.Context) {
 
 }
 
-// GET /users
+// GET /user/
 
+func GetUser(c *gin.Context) {
+
+	var user entity.User
+
+	id := c.Param("id")
+
+	if err := entity.DB().Raw("SELECT * FROM users WHERE id = ? ", id).Scan(&user).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": user})
+
+}
+
+
+// GET /users
 
 func ListUser(c *gin.Context) {
 
 	var users []entity.User
 
-	if err := entity.DB().Raw("SELECT * FROM users").Find(&users).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM users").Scan(&users).Error; err != nil {
+
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
 		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": users})
-
-}
-
-// GET /users/id
-
-func GetUser(c *gin.Context) {
-
-	var users entity.User
-
-	id := c.Param("id")
-
-	if err := entity.DB().Raw("SELECT * FROM users WHERE id = ?", id).Scan(&users).Error; err != nil {
-
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
-			return
 
 	}
 

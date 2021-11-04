@@ -8,6 +8,19 @@ import (
 	"net/http"
 )
 
+//List /treatmentRecord
+func ListTreatment(c *gin.Context) {
+	var treatmentRecord []entity.Treatment
+	if err := entity.DB().Preload("Screening").
+		Preload("Screening.Patient").
+		Table("treatments").
+		Find(&treatmentRecord).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": treatmentRecord})
+}
+
 // POST /treatmentRecord
 func CreateTreatment(context *gin.Context) {
 	var treatmentRecord entity.Treatment

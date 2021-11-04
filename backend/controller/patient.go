@@ -21,7 +21,7 @@ func CreatePatient(c *gin.Context) {
 	var sex entity.Sex
 	var nurse entity.User
 	var patient entity.Patient
-	var role entity.Role
+
 
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Patient
@@ -36,13 +36,7 @@ func CreatePatient(c *gin.Context) {
 		return
 	}
 
-	// 10: ค้นหา Role ด้วย id
-	if tx := entity.DB().Where("id = ?", nurse.RoleID).First(&role); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Role not found"})
-		return
-	}
-
-	// ตรวจสอบ Role ของ user
+	// 10: ตรวจสอบ Role ของ user
 	entity.DB().Joins("Role").Find(&nurse)
 	if nurse.Role.Name != "Nurse" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Only Nurses"})

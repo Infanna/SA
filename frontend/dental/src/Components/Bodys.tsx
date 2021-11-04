@@ -24,6 +24,7 @@ import { UserInterface } from "../models/IUser";
 import { SexInterface } from "../models/ISex";
 import { JobInterface } from "../models/IJob";
 import { InsuranceInterface } from "../models/IIns";
+import { AssignmentTwoTone } from "@mui/icons-material";
 
 
 
@@ -44,58 +45,22 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Bodys(this: any) {
 
-    //detail 
-
-    const [detail, setDetail] = React.useState<InsuranceInterface>();
-
-    const DetailChange = (event: React.ChangeEvent<{ id?: string; value: unknown }>
-    ) => {
-        const InsuranceIDValue = event.target.value as keyof typeof ins
-        const InsuranceID = parseInt(String(InsuranceIDValue))
-
-        console.log("DetailChange ID =", InsuranceID)
-
-        const apiUrl = `http://localhost:8080/detail/${InsuranceID}`;
-
-        const requestOptions = {
-
-            method: "GET",
-
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
-            },
-
-        };
-
-        fetch(apiUrl, requestOptions)
-
-            .then((response) => response.json())
-
-            .then((res) => {
-                console.log("set_datail", res)
-
-                if (res.data) {
-
-                    setDetail(res.data);
-
-                } else {
-
-                    console.log("else");
-
-                }
-
-            });
-
-    };
-
+    const [detail, setDetail] = React.useState<String>();
 
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
 
+        if(event.target.name === "InsuranceID"){
+            setDetail(ins.find(i => i.ID == event.target.value)?.Detail)
+            if(event.target.value == ""){
+                setDetail("")
+            }
+        }
+        
         const name = event.target.name as keyof typeof pats
         console.log("Name", name)
+        console.log("value", event.target.value)
         setPatient({
             ...pats,
             [name]: event.target.value,
@@ -217,6 +182,7 @@ export default function Bodys(this: any) {
             });
 
     }
+
 
     //ดึงข้อมูลUser
     const [users, setUser] = React.useState<UserInterface[]>([]);
@@ -364,8 +330,6 @@ export default function Bodys(this: any) {
             IDcard: pats.IDcard ?? "",
 
             Tel: pats.Tel ?? "",
-
-            Time: new Date(),
 
             SexID: typeof pats.SexID === "string" ? parseInt(pats.SexID) : NaN,
 
@@ -664,7 +628,7 @@ export default function Bodys(this: any) {
 
                                 value={pats.InsuranceID}
 
-                                onChange={e => { handleChange(e); DetailChange(e) }}
+                                onChange={handleChange}
 
                                 inputProps={{
                                     name: "InsuranceID",
@@ -689,7 +653,7 @@ export default function Bodys(this: any) {
                         <TextField
 
                             multiline
-                            defaultValue={detail?.Detail}
+                            defaultValue={detail}
                             rows={3}
 
                             disabled

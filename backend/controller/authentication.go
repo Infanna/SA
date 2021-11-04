@@ -10,10 +10,9 @@ import (
 
 // LoginPayload login body
 type LoginPayload struct {
-	Username    string  `json:"Username"`
-	Password 	string  `json:"Password"`
+	Username string `json:"UserName"`
+	Password string `json:"Password"`
 }
-
 
 // LoginResponse token response
 type LoginResponse struct {
@@ -42,8 +41,6 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user credentials"})
 		return
 	}
-
-
 
 	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
 	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
