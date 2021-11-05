@@ -114,8 +114,3 @@ export default function ButtonAppBar() {
     </div>
   );
 }
-/*
- <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          */

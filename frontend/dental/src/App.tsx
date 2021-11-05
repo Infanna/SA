@@ -16,12 +16,12 @@ export default function App() {
   const [token, setToken] = React.useState<String>("");
 
   useEffect(() => {
-    const getToken = localStorage.getItem("uid");
+    const getToken = localStorage.getItem("token");
     if (getToken) {
       setToken(getToken);
     }
   }, []);
-  console.log("Token",token)
+  console.log("Token", token)
 
   if (!token) {
     return <SignIn />
@@ -32,21 +32,21 @@ export default function App() {
     <Router>
       {token && (
         <>
-        <div>
+          <div>
 
-          <Navbar />
+            <Navbar />
 
-          <Switch>
+            <Switch>
 
-            <Route exact path="/" component={Home} />
+              <Route exact path="/" component={Home} />
 
-            <Route exact path="/list" component={UserList} />
+              <Route exact path="/list" component={UserList} />
 
-            <Route exact path="/create" component={Bodys} />
+              <Route exact path="/create" component={Bodys} />
 
-          </Switch>
+            </Switch>
 
-        </div>
+          </div>
         </>
       )}
     </Router>

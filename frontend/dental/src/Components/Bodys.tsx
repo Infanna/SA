@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: { flexGrow: 1 },
         container: { marginTop: theme.spacing(2) },
-        paper: { padding: theme.spacing(2), color: theme.palette.text.secondary },
+        paper: { padding: theme.spacing(2), color: theme.palette.text.secondary},
         table: { minWidth: 20 }
     }));
 
@@ -50,7 +50,7 @@ export default function Bodys(this: any) {
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
-
+        console.log("Type value",typeof(event.target.value))
         if(event.target.name === "InsuranceID"){
             setDetail(ins.find(i => i.ID == event.target.value)?.Detail)
             if(event.target.value == ""){
@@ -144,6 +144,7 @@ export default function Bodys(this: any) {
             });
 
     }
+
     //ดึงข้อมูลสิทธิในการรักษา
     const [ins, setIns] = React.useState<InsuranceInterface[]>([]);
 
@@ -183,44 +184,6 @@ export default function Bodys(this: any) {
 
     }
 
-
-    //ดึงข้อมูลUser
-    const [users, setUser] = React.useState<UserInterface[]>([]);
-
-    function getUser() {
-        const apiUrl = "http://localhost:8080/users";
-
-        const requestOptions = {
-
-            method: "GET",
-
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
-            },
-
-        };
-
-        fetch(apiUrl, requestOptions)
-
-            .then((response) => response.json())
-
-            .then((res) => {
-                console.log("Combobox_User", res)
-
-                if (res.data) {
-
-                    setUser(res.data);
-
-                } else {
-
-                    console.log("else");
-
-                }
-
-            });
-
-    }
     //real useronline
     const [Useronline, setUseronline] = React.useState<UserInterface>();
 
@@ -267,7 +230,6 @@ export default function Bodys(this: any) {
         getSex();
         getJob();
         getIns();
-        getUser();
         getUseronline();
 
     }, []);
@@ -471,12 +433,12 @@ export default function Bodys(this: any) {
 
                     <Grid item xs={3} >
                         <p>ชื่อ</p>
-                        <TextField style={{ width: 220 }}
+                        <TextField style={ {width: '110%'} }
 
                             id="Firstname"
-
+                            
                             label="กรอกชื่อ"
-
+                            
                             variant="outlined"
 
                             type="string"
@@ -489,7 +451,7 @@ export default function Bodys(this: any) {
 
                     <Grid item xs={3} >
                         <p>นามสกุล</p>
-                        <TextField style={{ width: 220 }}
+                        <TextField style={{ width: '110%' }}
 
                             id="Lastname"
 
@@ -511,10 +473,10 @@ export default function Bodys(this: any) {
                         <p>อายุ</p>
                         <TextField
 
-
+                            
                             type="number"
 
-                            style={{ width: 140 }}
+                            style={{ width: '110%' }}
 
                             id="Age"
 
@@ -530,7 +492,7 @@ export default function Bodys(this: any) {
 
                     <Grid item xs={3}>
 
-                        <FormControl fullWidth variant="outlined" style={{ width: 140 }}>
+                        <FormControl fullWidth variant="outlined" style={{ width: '70%' }}>
                             <p>เพศ</p>
                             <Select
 
@@ -561,7 +523,7 @@ export default function Bodys(this: any) {
 
                             type="text"
 
-                            style={{ width: 295 }}
+                            style={{ width: '108%' }}
 
                             id="IDcard"
 
@@ -580,7 +542,7 @@ export default function Bodys(this: any) {
 
                             type="tel"
 
-                            style={{ width: 220 }}
+                            style={{ width: '110%' }}
 
                             id="Tel"
 
@@ -593,7 +555,7 @@ export default function Bodys(this: any) {
                     </Grid>
 
                     <Grid item xs={3}>
-                        <FormControl fullWidth variant="outlined" style={{ width: 220 }}>
+                        <FormControl fullWidth variant="outlined" style={{ width: '110%' }}>
                             <p>อาชีพ</p>
                             <Select
                                 native
@@ -620,7 +582,7 @@ export default function Bodys(this: any) {
 
 
                     <Grid item xs={4}>
-                        <FormControl fullWidth variant="outlined" style={{ width: 295 }}>
+                        <FormControl fullWidth variant="outlined" style={{ width: '108%' }}>
                             <p>สิทธิในการรักษา</p>
                             <Select
 
@@ -660,7 +622,7 @@ export default function Bodys(this: any) {
 
                             type="text"
 
-                            style={{ width: 450 }}
+                            style={{ width: '128%' }}
 
                             id="Detail"
 
@@ -671,7 +633,7 @@ export default function Bodys(this: any) {
                     </Grid>
 
                     <Grid item xs={4}>
-                        <FormControl fullWidth variant="outlined" style={{ width: 300 }}>
+                        <FormControl fullWidth variant="outlined" style={{ width: '108%' }}>
                             <p>ผู้บันทึก</p>
                             <Select
                                 disabled
