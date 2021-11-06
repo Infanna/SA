@@ -103,7 +103,7 @@ function SignIn() {
           Sign in
 
         </Typography>
-        *username:few, password:1234, role:Nurse*
+        *username:few, password:1234*
 
         <form className={classes.form} noValidate>
           <TextField

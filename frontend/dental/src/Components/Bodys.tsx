@@ -322,7 +322,7 @@ export default function Bodys(this: any) {
         } else if (!/^\d{10}$/.test(data.Tel) && data.Tel != "") {
             setErrorMessage("เบอร์โทรไม่ถูกต้อง")
             setError(true)
-        }else if (isNaN(data.JobID)) {
+        } else if (isNaN(data.JobID)) {
             setErrorMessage("กรุณาเลือกอาชีพ")
             setError(true)
         } else if (isNaN(data.InsuranceID)) {
