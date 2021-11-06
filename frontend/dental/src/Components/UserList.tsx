@@ -20,242 +20,242 @@ import CreateIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 
 const useStyles = makeStyles((theme: Theme) =>
 
- createStyles({
+  createStyles({
 
-   container: {marginTop: theme.spacing(2)},
+    container: { marginTop: theme.spacing(2) },
 
-   table: { minWidth: 650},
+    table: { minWidth: 650 },
 
-   tableSpace: {marginTop: 20},
+    tableSpace: { marginTop: 20 },
 
- })
+  })
 
 );
 
 
 
 function WatchPatientList() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [pats, setWatchPatient] = React.useState<PatientInterface[]>([]);
-    console.log("pats",pats)
-    const getWatchPatient = async () => {
+  const [pats, setWatchPatient] = React.useState<PatientInterface[]>([]);
+  console.log("pats", pats)
+  const getWatchPatient = async () => {
 
-      const apiUrl = "http://localhost:8080/patients";
-    
-      const requestOptions = {
-    
-        method: "GET",
-    
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-    
-      };
-  
-      fetch(apiUrl, requestOptions)
-    
-        .then((response) => response.json())
-    
-        .then((res) => {
-    
-          console.log(res.data);
-    
-          if (res.data) {
-    
-            setWatchPatient(res.data);
-    
-          } else {
-    
-            console.log("else");
-    
-          }
-    
-        });
-    
+    const apiUrl = "http://localhost:8080/patients";
+
+    const requestOptions = {
+
+      method: "GET",
+
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+
     };
-    
-    
 
-    useEffect(() => {
-    
-      getWatchPatient();
-    
-    }, []);
-   
-    
+    fetch(apiUrl, requestOptions)
 
-    return (
-   
-      <div>
-   
-        <Container className={classes.container} maxWidth="xl" >
-            
-          <Box display="flex">
-   
-            <Box flexGrow={1}>
-   
-              <Typography
-   
-                component="h2"
-   
-                variant="h6"
-   
-                color="primary"
-   
-                gutterBottom
-   
-              >
-   
-                ระเบียนผู้ป่วย
-   
-              </Typography>
-   
-            </Box>
-   
-            <Box>
-   
-              <Button
-   
-                component={RouterLink}
-   
-                to="/create"
-   
-                variant="contained"
-   
-                color="primary"
-   
-              >
-   
-                <CreateIcon/>บันทึกผู้ป่วยใหม่ 
-   
-              </Button>
-   
-            </Box>
-   
+      .then((response) => response.json())
+
+      .then((res) => {
+
+        console.log(res.data);
+
+        if (res.data) {
+
+          setWatchPatient(res.data);
+
+        } else {
+
+          console.log("else");
+
+        }
+
+      });
+
+  };
+
+
+
+  useEffect(() => {
+
+    getWatchPatient();
+
+  }, []);
+
+
+
+  return (
+
+    <div>
+
+      <Container className={classes.container} maxWidth="xl" >
+
+        <Box display="flex">
+
+          <Box flexGrow={1}>
+
+            <Typography
+
+              component="h2"
+
+              variant="h6"
+
+              color="primary"
+
+              gutterBottom
+
+            >
+
+              ระเบียนผู้ป่วย
+
+            </Typography>
+
           </Box>
-   
-          <TableContainer component={Paper} className={classes.tableSpace}>
-   
-            <Table className={classes.table} aria-label="simple table">
-   
-              <TableHead>
-   
-                <TableRow>
-   
-                  <TableCell align="center" width="4%">
-   
-                    ID
-   
-                  </TableCell>
-   
-                  <TableCell align="left" width="10%">
-   
-                    ชื่อ
-   
-                  </TableCell>
-   
-                  <TableCell align="left" width="10%">
-   
-                    นามสกุล
-   
-                  </TableCell>
-   
-                  <TableCell align="left" width="6%">
-   
-                    เพศ
-   
-                  </TableCell>
-   
-                  <TableCell align="left" width="6%">
-   
-                    อายุ
-   
-                  </TableCell>
-   
-                  <TableCell align="left" width="10%">
-   
-                    รหัสบัตรประชาชน
-   
-                  </TableCell>
 
-                  <TableCell align="left" width="8%">
-   
-                    อาชีพ
+          <Box>
 
-                  </TableCell>
+            <Button
 
-                  <TableCell align="left" width="10%">
-   
-                    สิทธิในการรักษา
+              component={RouterLink}
 
-                  </TableCell>
+              to="/create"
 
-                  <TableCell align="left" width="8%">
-   
-                    เบอร์โทร
+              variant="contained"
 
-                  </TableCell>
+              color="primary"
 
-                  <TableCell align="left" width="10%">
-   
-                    เวลาบันทึก
+            >
 
-                  </TableCell>
+              <CreateIcon />บันทึกผู้ป่วยใหม่
 
-                  <TableCell align="left" width="10%">
-   
-                    ผู้บันทึก
+            </Button>
 
-                  </TableCell>
-   
+          </Box>
+
+        </Box>
+
+        <TableContainer component={Paper} className={classes.tableSpace}>
+
+          <Table className={classes.table} aria-label="simple table">
+
+            <TableHead>
+
+              <TableRow>
+
+                <TableCell align="center" width="4%">
+
+                  ID
+
+                </TableCell>
+
+                <TableCell align="left" width="10%">
+
+                  ชื่อ
+
+                </TableCell>
+
+                <TableCell align="left" width="10%">
+
+                  นามสกุล
+
+                </TableCell>
+
+                <TableCell align="left" width="6%">
+
+                  เพศ
+
+                </TableCell>
+
+                <TableCell align="left" width="6%">
+
+                  อายุ
+
+                </TableCell>
+
+                <TableCell align="left" width="10%">
+
+                  รหัสบัตรประชาชน
+
+                </TableCell>
+
+                <TableCell align="left" width="8%">
+
+                  อาชีพ
+
+                </TableCell>
+
+                <TableCell align="left" width="10%">
+
+                  สิทธิในการรักษา
+
+                </TableCell>
+
+                <TableCell align="left" width="8%">
+
+                  เบอร์โทร
+
+                </TableCell>
+
+                <TableCell align="left" width="10%">
+
+                  เวลาบันทึก
+
+                </TableCell>
+
+                <TableCell align="left" width="10%">
+
+                  ผู้บันทึก
+
+                </TableCell>
+
+              </TableRow>
+
+            </TableHead>
+
+            <TableBody>
+
+              {pats.map((pats: PatientInterface) => (
+
+                <TableRow key={pats.ID}>
+
+                  <TableCell align="center">{pats.ID}</TableCell>
+
+                  <TableCell align="left" size="medium"> {pats.Firstname} </TableCell>
+
+                  <TableCell align="left">{pats.Lastname}</TableCell>
+
+                  <TableCell align="left">{pats.Sex.Name}</TableCell>
+
+                  <TableCell align="left">{pats.Age}</TableCell>
+
+                  <TableCell align="left">{pats.IDcard}</TableCell>
+
+                  <TableCell align="left">{pats.Job.Name}</TableCell>
+
+                  <TableCell align="left">{pats.Insurance.Name}</TableCell>
+
+                  <TableCell align="left">{pats.Tel}</TableCell>
+
+                  <TableCell align="left">{moment(pats.Time).format("YYYY-MM-DD HH:mm")}</TableCell>
+
+                  <TableCell align="left">{pats.UserNurse.Name}</TableCell>
+
                 </TableRow>
-   
-              </TableHead>
-   
-              <TableBody>
-   
-                {pats.map((pats: PatientInterface) => (
-                  
-                  <TableRow key={pats.ID}>
-   
-                    <TableCell align="center">{pats.ID}</TableCell>
-   
-                    <TableCell align="left" size="medium"> {pats.Firstname} </TableCell>
-   
-                    <TableCell align="left">{pats.Lastname}</TableCell>
 
-                    <TableCell align="left">{pats.Sex.Name}</TableCell>
+              ))}
 
-                    <TableCell align="left">{pats.Age}</TableCell>
+            </TableBody>
 
-                    <TableCell align="left">{pats.IDcard}</TableCell>
+          </Table>
 
-                    <TableCell align="left">{pats.Job.Name}</TableCell>
-              
-                    <TableCell align="left">{pats.Insurance.Name}</TableCell>
+        </TableContainer>
 
-                    <TableCell align="left">{pats.Tel}</TableCell>
-                  
-                    <TableCell align="left">{moment(pats.Time).format("YYYY-MM-DD HH:mm")}</TableCell>
+      </Container>
 
-                    <TableCell align="left">{pats.UserNurse.Name}</TableCell>
+    </div>
 
-                  </TableRow>
-   
-                ))}
-
-              </TableBody>
-   
-            </Table>
-   
-          </TableContainer>
-
-        </Container>
-   
-      </div>
-   
-    );
+  );
 }
 export default WatchPatientList;

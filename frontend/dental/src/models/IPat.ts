@@ -14,7 +14,7 @@ export interface PatientInterface {
    
     Age: number;
 
-    IDcard: String;
+    IDcard: string;
 
     Tel: string;
 

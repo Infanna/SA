@@ -163,6 +163,7 @@ export default function Bodys(this: any) {
 
         };
 
+
         fetch(apiUrl, requestOptions)
 
             .then((response) => response.json())
@@ -318,10 +319,10 @@ export default function Bodys(this: any) {
         } else if (!/^\d{13}$/.test(data.IDcard.toString())) {
             setErrorMessage("เลขบัตรประชาชนไม่ถูกต้อง")
             setError(true)
-        } else if (!/^\d{10}$/.test(data.Tel.toString())) {
+        } else if (!/^\d{10}$/.test(data.Tel.toString()) && data.Tel.toString() != "") {
             setErrorMessage("เบอร์โทรไม่ถูกต้อง")
             setError(true)
-        } else if (isNaN(data.JobID)) {
+        }else if (isNaN(data.JobID)) {
             setErrorMessage("กรุณาเลือกอาชีพ")
             setError(true)
         } else if (isNaN(data.InsuranceID)) {
