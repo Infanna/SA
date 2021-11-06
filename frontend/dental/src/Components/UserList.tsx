@@ -38,7 +38,7 @@ function WatchPatientList() {
     const classes = useStyles();
 
     const [pats, setWatchPatient] = React.useState<PatientInterface[]>([]);
-  console.log("pats",pats)
+    console.log("pats",pats)
     const getWatchPatient = async () => {
 
       const apiUrl = "http://localhost:8080/patients";
@@ -77,7 +77,7 @@ function WatchPatientList() {
     };
     
     
-    
+
     useEffect(() => {
     
       getWatchPatient();
@@ -237,7 +237,7 @@ function WatchPatientList() {
                     <TableCell align="left">{pats.Insurance.Name}</TableCell>
 
                     <TableCell align="left">{pats.Tel}</TableCell>
-
+                  
                     <TableCell align="left">{moment(pats.Time).format("YYYY-MM-DD HH:mm")}</TableCell>
 
                     <TableCell align="left">{pats.UserNurse.Name}</TableCell>

@@ -50,7 +50,7 @@ export default function Bodys(this: any) {
     const handleChange = (
         event: React.ChangeEvent<{ name?: string; value: unknown }>
     ) => {
-        console.log("Type value",typeof(event.target.value))
+        //console.log("Type value",typeof(event.target.value))
         if(event.target.name === "InsuranceID"){
             setDetail(ins.find(i => i.ID == event.target.value)?.Detail)
             if(event.target.value == ""){
@@ -163,7 +163,6 @@ export default function Bodys(this: any) {
 
         };
 
-
         fetch(apiUrl, requestOptions)
 
             .then((response) => response.json())
@@ -265,7 +264,7 @@ export default function Bodys(this: any) {
         event: React.ChangeEvent<{ id?: string; value: any }>
 
     ) => {
-
+        
         const id = event.target.id as keyof typeof Bodys;
 
         const { value } = event.target;
@@ -310,7 +309,7 @@ export default function Bodys(this: any) {
         } else if (!/\S/.test(data.Lastname)) {
             setErrorMessage("กรุณากรอกนามสกุล")
             setError(true)
-        } else if (!/\d/.test(data.Age.toString()) || data.Age <= 0) {
+        } else if (!/\d/.test(data.Age.toString()) || data.Age <= 0 ) {
             setErrorMessage("อายุไม่ถูกต้อง")
             setError(true)
         } else if (isNaN(data.SexID)) {
@@ -484,7 +483,7 @@ export default function Bodys(this: any) {
 
                             variant="outlined"
 
-                            InputProps={{ inputProps: { min: 1 } }}
+                            InputProps={{ inputProps: { min: 1 ,max: 150} }}
 
                             onChange={handleInputChange}
                         />

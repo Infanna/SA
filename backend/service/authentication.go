@@ -30,7 +30,7 @@ func (j *JwtWrapper) GenerateToken(username string) (signedToken string, err err
 			Issuer:    j.Issuer,
 		},
 	}
-
+	//set ค่าใส่ token					set method
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	signedToken, err = token.SignedString([]byte(j.SecretKey))
@@ -54,7 +54,7 @@ func (j *JwtWrapper) ValidateToken(signedToken string) (claims *JwtClaim, err er
 	if err != nil {
 		return
 	}
-
+	//Tpyeตรง Ok = true     เช็คtype	
 	claims, ok := token.Claims.(*JwtClaim)
 	if !ok {
 		err = errors.New("Couldn't parse claims")
