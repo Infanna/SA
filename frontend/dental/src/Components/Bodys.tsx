@@ -226,7 +226,7 @@ export default function Bodys(this: any) {
 
     //ดึงข้อมูล ใส่ combobox
     useEffect(() => {
-        
+
         getUseronline();
         getSex();
         getJob();
@@ -316,10 +316,10 @@ export default function Bodys(this: any) {
         } else if (isNaN(data.SexID)) {
             setErrorMessage("กรุณาเลือกเพศ")
             setError(true)
-        } else if (!/^\d{13}$/.test(data.IDcard.toString())) {
+        } else if (!/^\d{13}$/.test(data.IDcard)) {
             setErrorMessage("เลขบัตรประชาชนไม่ถูกต้อง")
             setError(true)
-        } else if (!/^\d{10}$/.test(data.Tel.toString()) && data.Tel.toString() != "") {
+        } else if (!/^\d{10}$/.test(data.Tel) && data.Tel != "") {
             setErrorMessage("เบอร์โทรไม่ถูกต้อง")
             setError(true)
         }else if (isNaN(data.JobID)) {
