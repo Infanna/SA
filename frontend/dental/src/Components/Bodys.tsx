@@ -226,11 +226,11 @@ export default function Bodys(this: any) {
 
     //ดึงข้อมูล ใส่ combobox
     useEffect(() => {
-
+        
+        getUseronline();
         getSex();
         getJob();
         getIns();
-        getUseronline();
 
     }, []);
 
